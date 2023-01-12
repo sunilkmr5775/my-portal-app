@@ -43,7 +43,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'To Do Master',
-        url: '/base/loans'
+        url: '/general/task-master'
       },
       {
         name: 'System Information',

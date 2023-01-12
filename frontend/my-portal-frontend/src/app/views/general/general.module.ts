@@ -58,13 +58,15 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { BaseRoutingModule } from '../base/base-routing.module';
 import { ChartsRoutingModule } from '../charts/charts-routing.module';
+import { TaskComponent } from './task/task.component';
 
 
 
 
 @NgModule({
   declarations: [
-    JobMasterComponent
+    JobMasterComponent,
+    TaskComponent
   ],
   imports: [
 
