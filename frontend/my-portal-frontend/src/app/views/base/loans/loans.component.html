@@ -11,7 +11,7 @@
             <!-- tab1 -->
             <c-nav-item>
               <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                <svg cIcon class="me-2" name="cilSearch"></svg>
                 <strong style="color: rgb(78, 76, 76);">Search Loan</strong>
               </a>
             </c-nav-item>
@@ -19,14 +19,15 @@
             <!-- tab2 -->
             <c-nav-item>
               <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <svg cIcon class="me-2" name="cilMedicalCross"></svg>
                 <strong style="color: rgb(78, 76, 76);">Add New Loan</strong>
               </a>
             </c-nav-item>
             <!-- tab3 -->
             <c-nav-item>
               <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <svg cIcon class="me-2" color="warning" name="cilBarChart"></svg>
+                <!-- <c-badge class="me-2" color="warning"><svg cIcon name="cilChartPie"></svg></c-badge> -->
                 <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
               </a>
             </c-nav-item>
@@ -363,12 +364,19 @@
                 <td class="text-center">
                   {{ loan.emiAmount }}
                 </td>
-                <td class="text-center">
-                  {{ loan.status }}
+                <td class="text-center" >
+                  <div *ngIf="loan.status=='ACTIVE'">
+                  <c-badge class="me-1" color="warning"><svg cIcon
+                    name="cilClock"></svg></c-badge>
+                  </div>
+                  <div *ngIf="loan.status=='CLOSED'">
+                    <c-badge class="me-1" color="success"><svg cIcon
+                      name="cilCheckCircle"></svg></c-badge>
+                    </div>
                 </td>
                 <td class="text-center">
                   <c-badge class="me-1" [routerLink]="'/base/emi/'+loan.loanId" color="primary"><svg cIcon
-                      name="cilChart"></svg></c-badge>
+                      name="cilFolderOpen"></svg></c-badge>
                   <c-badge class="me-1" color="success"><svg cIcon name="cilPencil"></svg></c-badge>
                   <c-badge type="submit" class="me-1" color="danger" (click)="deleteLoan(loan.loanId, loan.loanNo)"><svg
                       cIcon name="cilTrash"></svg></c-badge>
@@ -381,3 +389,5 @@
     </c-col>
   </c-row>
 </div>
+
+

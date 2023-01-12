@@ -219,12 +219,12 @@
                 <scope>runtime</scope>
                 <optional>true</optional>
             </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.24</version><!--$NO-MVN-MAN-VER$-->
-                <scope>compile</scope>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.projectlombok</groupId>-->
+<!--                <artifactId>lombok</artifactId>-->
+<!--                <version>1.18.24</version>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;-->
+<!--                <scope>compile</scope>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
