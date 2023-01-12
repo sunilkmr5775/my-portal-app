@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.sunil.myportal.model.BankMaster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -59,45 +60,9 @@ public class LoanServiceImpl implements LoanService {
 			loan.setLoanAmount(
 					loanRequest.getLoanAmount() != null ? loanRequest.getLoanAmount() : new BigDecimal("0.0"));
 
-			switch (bankId) {
+			BankMaster bm = new BankMaster();
 
-			case "1":
-				loan.setLogoName("axis_logo.png");
-				break;
-
-			case "8":
-				loan.setLogoName("hdfc_logo.jpg");
-				break;
-
-			case "9":
-				loan.setLogoName("icici_logo.png");
-				break;
-
-			case "15":
-				loan.setLogoName("kotak_logo.png");
-				break;
-
-			case "32":
-				loan.setLogoName("SBI-Logo.png");
-				break;
-
-			case "35":
-				loan.setLogoName("bajaj_logo.png");
-				break;
-
-			case "36":
-				loan.setLogoName("personal_logo.jpg");
-				break;
-
-			case "37":
-				loan.setLogoName("ZestLogo.png");
-				break;
-
-			default:
-				loan.setLogoName("marc.jpg");
-
-			}
-			loan.setBank(loanRequest.getBank());
+//			loan.setBankMaster(loanRequest.getBank());
 			loan.setInterestRate(loanRequest.getInterestRate());
 			loan.setLoanStatus(loanRequest.isLoanStatus());
 			loan.setTotalEmi(loanRequest.getTotalEmi());

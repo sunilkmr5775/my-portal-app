@@ -11,7 +11,7 @@
             <!-- tab1 -->
             <c-nav-item>
               <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                <svg cIcon class="me-2" name="cilSearch"></svg>
                 <strong style="color: rgb(78, 76, 76);">Search Insurance</strong>
               </a>
             </c-nav-item>
@@ -19,14 +19,14 @@
             <!-- tab2 -->
             <c-nav-item>
               <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <svg cIcon class="me-2" name="cilMedicalCross"></svg>
                 <strong style="color: rgb(78, 76, 76);">Add Life Insurance</strong>
               </a>
             </c-nav-item>
             <!-- tab3 -->
             <c-nav-item>
               <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
-                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <svg cIcon class="me-2" name="cilBarChart"></svg>
                 <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
               </a>
             </c-nav-item>
@@ -413,11 +413,19 @@
                   {{ li.premium }}
                 </td>
                 <td class="text-center">
-                  {{ li.status }}
+                  <!-- {{ li.status }} -->
+                    <div *ngIf="li.status; else completed">
+                    <c-badge class="me-1" color="warning"><svg cIcon
+                      name="cilClock"></svg></c-badge>
+                    </div>
+                    <ng-template #completed>
+                      <c-badge class="me-1" color="success"><svg cIcon
+                        name="cilCheckCircle"></svg></c-badge>
+                      </ng-template>
                 </td>
                 <td class="text-center">
                   <c-badge type="submit" class="me-1" [routerLink]="'/base/life-insurance-premiums/'+li.policyId"
-                    color="primary"><svg cIcon name="cilChart"></svg></c-badge>
+                    color="primary"><svg cIcon name="cilFolderOpen"></svg></c-badge>
                   <c-badge type="submit" class="me-1" color="success"><svg cIcon name="cilPencil"></svg></c-badge>
                   <c-badge type="submit" class="me-1" color="danger"
                     (click)="deletePolicy(li.policyId, li.policyNo)"><svg cIcon name="cilTrash"></svg></c-badge>

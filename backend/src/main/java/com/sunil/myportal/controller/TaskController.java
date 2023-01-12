@@ -34,7 +34,7 @@ public class TaskController {
 		return taskService.addNewTask(taskRequest);
 
 	}
-//	 GET ALL Jobs
+//	 GET ALL Tasks
 	@GetMapping("/")
 	public List<TaskMaster> getAllTasks() {
 		return new ArrayList<>(this.taskService.getAllTasks());

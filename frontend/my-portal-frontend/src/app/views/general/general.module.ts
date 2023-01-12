@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {
   AccordionModule,
@@ -162,6 +163,7 @@ import { TaskComponent } from './task/task.component';
     ChartjsModule,
     // ChartsComponent,
     ChartsRoutingModule,
+    MatTooltipModule
 
   ]
 })

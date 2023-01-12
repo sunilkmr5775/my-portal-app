@@ -7,19 +7,20 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@AllArgsConstructor
+//@RequiredArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "LOAN")
 public class Loan {
@@ -77,6 +78,10 @@ public class Loan {
 
 	@Column(name = "BANK")
 	private String bank;
+
+//@ManyToOne
+//@JoinColumn(name="bank", nullable=false)
+//private BankMaster bankMaster;
 
 	@Column(name = "EXTRA_ATTR2")
 	private String extAttr2;
@@ -287,13 +292,13 @@ public class Loan {
 		this.logoName = logoName;
 	}
 
-	public String getBank() {
-		return bank;
-	}
-
-	public void setBank(String bank) {
-		this.bank = bank;
-	}
+//	public String getBank() {
+//		return bank;
+//	}
+//
+//	public void setBank(String bank) {
+//		this.bank = bank;
+//	}
 
 	public String getExtAttr2() {
 		return extAttr2;

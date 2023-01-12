@@ -11,21 +11,21 @@
                         <!-- tab1 -->
                         <c-nav-item>
                             <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
-                                <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                                <svg cIcon class="me-2" name="cilSearch"></svg>
                                 <strong style="color: rgb(78, 76, 76);">Loan Summary</strong>
                             </a>
                         </c-nav-item>
                         <!-- tab2 -->
                         <c-nav-item>
                             <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
-                                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                                <svg cIcon class="me-2" name="cilPlus"></svg>
                                 <strong style="color: rgb(78, 76, 76);">update EMI</strong>
                             </a>
                         </c-nav-item>
                         <!-- tab3 -->
                         <c-nav-item>
                             <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
-                                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                                <svg cIcon class="me-2" name="cilBarChart"></svg>
                                 <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
                             </a>
                         </c-nav-item>
@@ -219,7 +219,11 @@
                                 <td>{{e.noOfPayment}}</td>
                                 <td>{{e.emiDate}}</td>
                                 <td class="text-left">{{e.emiAmount}}</td>
-                                <td>{{e.status}}</td>
+                                <td>
+                                    <!-- {{e.status}} -->
+                                    <c-badge class="me-1" color="success"><svg cIcon
+                                        name="cilCheckCircle"></svg></c-badge>
+                                </td>
                         <!--        <td>
                                      <button (click)="openModalDialog(e.eId)">
                                     <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
