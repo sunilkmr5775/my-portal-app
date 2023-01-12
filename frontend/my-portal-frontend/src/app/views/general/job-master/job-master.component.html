@@ -1,0 +1,222 @@
+<div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <c-col xs="12">
+        <c-card class="mb-4">
+          <c-card-header>
+            <c-nav variant="tabs">
+              <!-- {{banks | json}} -->
+              <!-- {{loan | json}} -->
+              <!-- {{addPolicy | json}} -->
+  
+              <!-- tab1 -->
+              <c-nav-item>
+                <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
+                  <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                  <strong style="color: rgb(78, 76, 76);">Search Jobs</strong>
+                </a>
+              </c-nav-item>
+  
+              <!-- tab2 -->
+              <c-nav-item>
+                <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
+                  <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                  <strong style="color: rgb(78, 76, 76);">Add Jobs</strong>
+                </a>
+              </c-nav-item>
+            </c-nav>
+          </c-card-header>
+  
+          <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="0" cRounded="bottom">
+            <!-- tab1 Content -->
+            <c-tab-pane class="p-3 preview" role="tabpanel">
+              <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="searchJobDetails()">
+                <!-- <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Job Name</b></p>
+                    <c-input-group class="mb-3">
+                      <span cInputGroupText><svg cIcon name="cilDescription"></svg></span>
+                      <input autoComplete="jobName" cFormControl id="validationDefault05" type="text" name="jobName"
+                        [(ngModel)]="searchJob.jobName" placeholder="Enter Job Name" />
+                    </c-input-group>
+                  </div>
+                </c-col> -->
+  
+                <c-col [md]="4">
+                  <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Job Name</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilBank"></svg></span>
+                    <select cSelect name="jobName" [(ngModel)]="searchJob.jobName">
+                      <option value="All">All</option>
+                      <option *ngFor="let j of jobs" [value]="j.jobName">{{j.jobName}}</option>
+                    </select>
+                  </c-input-group>
+                </c-col>
+                <c-col [md]="4">
+                  <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Job Status</b></p>
+                  <select name="jobStatus" [(ngModel)]="searchJob.jobStatus" cSelect>
+                    <!-- <option>Loan Status</option> -->
+                    <option value="All">All</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="CLOSED">Closed</option>
+                  </select>
+                </c-col>
+                <c-col [md]="5"></c-col>
+  
+                <c-col [md]="2">
+                  <div>
+                    <button type="reset" cButton color="warning"><b>Reset</b></button>
+                    <button type="submit" cButton color="success">Search</button>
+                  </div>
+                </c-col>
+                <c-col [md]="5"></c-col>
+              </form>
+            </c-tab-pane>
+            
+            <!-- tab2 Content -->
+            <c-tab-pane class="p-3 preview" role="tabpanel">
+                <!-- {{addJob | json}} -->
+              <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="addNewJob()">
+                <!-- <div class="row"> -->
+                <!-- row 1 -->
+                <!-- <c-col [md]="4">
+                  <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Job Name</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilBank"></svg></span>
+                    <select cSelect name="bank" [(ngModel)]="addPolicy.bank" required>
+                      <option value="">Select</option>
+                      <option *ngFor="let b of banks" [value]="b.id">{{b.bankName}}</option>
+                    </select>
+                  </c-input-group>
+                </c-col> -->
+                <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Job Name</b></p>
+                    <c-input-group class="mb-3">
+                      <span cInputGroupText><svg cIcon name="cilCopy"></svg></span>
+                      <input autoComplete="jobName" cFormControl id="validationDefault05" type="text" name="jobName"
+                        [(ngModel)]="addJob.jobName" placeholder="Enter Job Name" required />
+                    </c-input-group>
+                  </div>
+                </c-col>
+                <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>File Type</b></p>
+                    <c-input-group class="mb-3">
+                      <span cInputGroupText><svg cIcon name="cilDescription"></svg></span>
+                      <input autoComplete="fileType" cFormControl id="validationDefault05" type="text" name="fileType"
+                        [(ngModel)]="addJob.fileType" placeholder="Enter File Type" required />
+                    </c-input-group>
+                  </div>
+                </c-col>
+  
+                <!-- row 2 -->
+                <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>File In Path</b>
+                    </p>
+                    <c-input-group class="mb-3">
+                      <span cInputGroupText><svg cIcon name="cilDollar"></svg></span>
+                      <input autoComplete="fileInPath" cFormControl id="validationDefault05" type="text" name="fileInPath"
+                        [(ngModel)]="addJob.fileInPath" placeholder="Enter File In Path" required />
+                    </c-input-group>
+                  </div>
+                </c-col>
+                <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>File Out Path</b>
+                    </p>
+                    <c-input-group class="mb-3">
+                      <span cInputGroupText><svg cIcon name="cilDollar"></svg></span>
+                      <input autoComplete="fileOutPath" cFormControl id="validationDefault05" type="text" name="fileOutPath"
+                        [(ngModel)]="addJob.fileOutPath" placeholder="Enter File Out Path" required />
+                    </c-input-group>
+                  </div>
+                </c-col>
+                <!-- <c-col [md]="4">
+                  <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Policy Due Date Mode</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilHistory"></svg></span>
+                    <select name="dueDateMode" cSelect [(ngModel)]="addPolicy.dueDateMode" required>
+                      <option>Select Due Date Mode</option>
+                      <option *ngFor="let lt of dueDateModes" [value]="lt.id">{{lt.premiumMode}}</option>
+                    </select>
+                  </c-input-group>
+                </c-col> -->  
+  
+                <!-- row 3 -->
+                <c-col [md]="4">
+                  <div>
+                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Job Status</b></p>
+                    <c-input-group class="mb-3">
+                      <select [(ngModel)]="addJob.jobStatus" disabled name="jobStatus" cSelect>
+                        <option value="0">Select</option>
+                        <option value="ACTIVE" selected>Active</option>
+                        <option value="CLOSED">Closed</option>
+                      </select>
+                    </c-input-group>
+                  </div>
+                </c-col>
+  
+                <c-col [md]="5"></c-col>
+                <c-col [md]="2">
+                  <div>
+                    <button type="reset" cButton color="warning"><b>Clear</b></button>
+                    <button type="submit" cButton color="success">Submit</button>
+                  </div>
+                </c-col>
+                <c-col [md]="5"></c-col>
+  
+              </form>
+            </c-tab-pane>
+          </c-tab-content>
+  
+        </c-card>
+      </c-col>
+  
+  
+      <c-col xs>
+        <c-card class="mb-4">
+          <c-card-header class="text-left"><b>{{jobMaster.length}} records found</b></c-card-header>
+          <c-card-body>
+            <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+              <thead cTableColor="light">
+                <tr>
+                  <th>S.No</th>
+                  <th>Job Name</th>
+                  <th>File Type</th>
+                  <th>File In Path</th>
+                  <th>File Out Path</th>
+                  <th>Status</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- {{jobMaster | json}} -->
+                <tr *ngFor="let li of jobMaster; index as i">
+                  <td>{{i+1}}</td>
+                  <td>{{ li.jobName }}</td>
+                  <td>{{ li.fileType }}</td>
+                  <td>{{ li.fileInPath }}</td>
+                  <td>{{ li.fileOutPath }}</td>
+                  <td>
+                    {{ li.status }}
+                  </td>
+                  <td>
+                    <!-- <c-badge type="submit" class="me-1" [routerLink]="'/general/job-master/'+li.jobId"
+                      color="primary"><svg cIcon name="cilChart"></svg></c-badge> -->
+                    <c-badge type="submit" class="me-1" color="success"><svg cIcon name="cilPencil"></svg></c-badge>
+                    <c-badge type="submit" class="me-1" color="danger" placeholder="Delete"
+                      (click)="deleteJob(li.id, li.jobName)"><svg cIcon name="cilTrash"></svg></c-badge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-card-body>
+        </c-card>
+      </c-col>
+  
+    </c-row>
+  </div>

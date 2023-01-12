@@ -1,0 +1,237 @@
+<div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+        <c-col xs="12">
+            <c-card class="mb-4">
+                <c-card-header>
+                   
+                    <c-nav variant="tabs">
+                        <!-- {{banks | json}} -->
+                        <!-- {{loans | json}} -->
+                        
+                        <!-- tab1 -->
+                        <c-nav-item>
+                            <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
+                                <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                                <strong style="color: rgb(78, 76, 76);">Loan Summary</strong>
+                            </a>
+                        </c-nav-item>
+                        <!-- tab2 -->
+                        <c-nav-item>
+                            <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
+                                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                                <strong style="color: rgb(78, 76, 76);">update EMI</strong>
+                            </a>
+                        </c-nav-item>
+                        <!-- tab3 -->
+                        <c-nav-item>
+                            <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
+                                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                                <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
+                            </a>
+                        </c-nav-item>
+                        <h5 class="h2-responsive" style="padding-left: 10%; padding-top: 10px;"><strong>Loan No:
+                            {{loans.loanNo}}</strong></h5>
+                    </c-nav>
+                </c-card-header>
+
+                <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="1" cRounded="bottom">
+                    <!-- tab1 Content -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <form [gutter]="3" cForm cRow ngNativeValidate>
+
+                            <c-col [md]="1"></c-col>
+                            <c-col [md]="10">
+                                <h2 class="h2-responsive" style="text-align: center;"><strong><u>LOAN
+                                            SUMMARY</u></strong></h2>
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Loan No:
+                                                    {{loans.loanNo}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Loan Type:
+                                                    {{loans.loanType}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Bank:
+                                                    {{loans.bank}}</strong></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row ml20">
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Loan Amount:
+                                                    {{loans.loanAmount}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Disbursal Date:
+                                                    {{loans.disbursalDate}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Loan Tenure:
+                                                    {{loans.totalEmi}} months</strong></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>EMI Paid:
+                                                    {{loans.emiPaid}} | EMI Remaining:
+                                                    {{(loans.totalEmi-loans.emiPaid)}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>EMI:
+                                                    {{loans.emiAmount}}</strong></h5>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <h5 class="h2-responsive" style="text-align: left;"><strong>Status:
+                                                    {{loans.status}}</strong></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c-col>
+                            <c-col [md]="1"></c-col>
+                        </form>
+                    </c-tab-pane>
+                    <!-- tab2 Content -->
+                    <!-- {{addEmi | json}} -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="updateEmi()">
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan No.</b></p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                        <input disabled autoComplete="loanNo" cFormControl id="validationDefault05" type="text"
+                                            name="loanNo" [(ngModel)]="addEmi.loanNo" value="{{loans.loanNo}}" placeholder="Enter Loan No." />
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>EMI
+                                            Amount</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilDollar"></svg></span>
+                                        <input autoComplete="emiAmount" cFormControl id="validationDefault05"
+                                            type="text" name="emiAmount" [(ngModel)]="addEmi.emiAmount"
+                                            placeholder="Enter EMI Amount" value="{{loans.emiAmount}}" required />
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan Status</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilTags"></svg></span>
+                                        <select disabled name="emiStatus" [(ngModel)]="addEmi.emiStatus"
+                                        value="{{addEmi.emiStatus}}" cSelect>
+                                            <option value="0">Select</option>
+                                            <option value=true>Active</option>
+                                            <option value=false>Closed</option>
+                                        </select>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="8">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>EMI Date</b></p>
+                                    <c-input-group>
+                                        <span cInputGroupText style="height: 53px;"><svg cIcon
+                                                name="cilCalendar"></svg></span>
+                                        <mat-form-field appearance="fill">
+                                            <input name="emiDate" [(ngModel)]="date" required matInput
+                                                [matDatepicker]="emidt" (dateInput)="addEvent('input', $event)"
+                                                (dateChange)="addEvent('change', $event)">
+                                            <mat-datepicker-toggle matSuffix [for]="emidt"></mat-datepicker-toggle>
+                                            <mat-datepicker #emidt>
+                                            </mat-datepicker>
+                                        </mat-form-field>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="5"></c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <button type="reset" cButton color="warning"><b>Reset</b></button>
+                                    <button type="submit" cButton color="success">Submit</button>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4"></c-col>
+                        </form>
+                    </c-tab-pane>
+
+                    <!-- tab3 Content -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <form [gutter]="3" cForm cRow ngNativeValidate>
+                            <c-col [md]="4"></c-col>
+                            <c-col [md]="8">
+                                <div>
+                                    <c-col xs="1" lg="6">
+                                        <c-card>
+                                            <c-card-header>
+                                                <p class="text-medium-emphasis" cLabel for="validationDefault05">
+                                                    <b>EMI Pie Chart</b>
+                                                </p>
+                                            </c-card-header>
+                                            <c-card-body>
+                                                <c-chart type="pie" [data]="chartPieData"></c-chart>
+                                            </c-card-body>
+                                        </c-card>
+                                    </c-col>
+                                </div>
+                            </c-col>
+                        </form>
+                    </c-tab-pane>
+                </c-tab-content>
+            </c-card>
+
+        </c-col>
+        <c-col xs>
+            <c-card class="mb-4">
+                <!-- {{emis | json}} -->
+                <c-card-header>
+                    <b  class="text-right">EMI History</b>
+                    <b  style ="padding-left: 80%;">{{emis.length}} records found</b>
+                    
+                </c-card-header>
+
+                <c-card-body>
+                    <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable
+                        class="mb-0 border">
+                        <thead cTableColor="light">
+                            <tr>
+                                <th>EMI No.</th>
+                                <th>Due Date</th>
+                                <th>Emi Amount</th>
+                                <th>Status</th>
+                                <!-- <th class="text-center">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of emis">
+                                <td>{{e.noOfPayment}}</td>
+                                <td>{{e.emiDate}}</td>
+                                <td class="text-left">{{e.emiAmount}}</td>
+                                <td>{{e.status}}</td>
+                        <!--        <td>
+                                     <button (click)="openModalDialog(e.eId)">
+                                    <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                      </svg>
+                                    </button> 
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+</div>

@@ -1,0 +1,433 @@
+<div class="fade-in">
+  <c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <c-nav variant="tabs">
+            <!-- {{banks | json}} -->
+            <!-- {{loan | json}} -->
+            <!-- {{addPolicy | json}} -->
+
+            <!-- tab1 -->
+            <c-nav-item>
+              <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
+                <!-- <svg cIcon class="me-2" name="cilHome"></svg> -->
+                <strong style="color: rgb(78, 76, 76);">Search Insurance</strong>
+              </a>
+            </c-nav-item>
+
+            <!-- tab2 -->
+            <c-nav-item>
+              <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
+                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <strong style="color: rgb(78, 76, 76);">Add Life Insurance</strong>
+              </a>
+            </c-nav-item>
+            <!-- tab3 -->
+            <c-nav-item>
+              <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
+                <!-- <svg cIcon class="me-2" name="cilUser"></svg> -->
+                <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
+              </a>
+            </c-nav-item>
+
+          </c-nav>
+        </c-card-header>
+
+        <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="0" cRounded="bottom">
+          <!-- tab1 Content -->
+          <c-tab-pane class="p-3 preview" role="tabpanel">
+            <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="searchLifeInsurance()">
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Policy No.</b></p>
+                  <!-- {{lifeInsurance | json}} -->
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilDescription"></svg></span>
+                    <input autoComplete="policyNo" cFormControl id="validationDefault05" type="text" name="policyNo"
+                      [(ngModel)]="filterPolicy.policyNo" placeholder="Enter Policy No." />
+                  </c-input-group>
+                </div>
+              </c-col>
+
+              <c-col [md]="4">
+                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Bank</b>
+                </p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilBank"></svg></span>
+                  <select cSelect name="bank" [(ngModel)]="filterPolicy.bank">
+                    <option value=null>All</option>
+                    <option *ngFor="let b of banks" [value]="b.id">{{b.bankName}}</option>
+                  </select>
+                </c-input-group>
+              </c-col>
+              <c-col [md]="4">
+                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Policy Status</b></p>
+                <select name="policyStatus" [(ngModel)]="filterPolicy.policyStatus" cSelect>
+                  <!-- <option>Loan Status</option> -->
+                  <option value=null>All</option>
+                  <option value="ACTIVE">Active</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+              </c-col>
+              <c-col [md]="5"></c-col>
+
+              <c-col [md]="2">
+                <div>
+                  <button type="reset" cButton color="warning"><b>Reset</b></button>
+                  <button type="submit" cButton color="success">Search</button>
+                </div>
+              </c-col>
+              <c-col [md]="5"></c-col>
+            </form>
+          </c-tab-pane>
+          <!-- {{addPolicy | json}} -->
+          <!-- tab2 Content -->
+          <c-tab-pane class="p-3 preview" role="tabpanel">
+            <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="addNewPolicy()">
+              <!-- <div class="row"> -->
+              <!-- row 1 -->
+              <c-col [md]="4">
+                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Bank</b>
+                </p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilBank"></svg></span>
+                  <select cSelect name="bank" [(ngModel)]="addPolicy.bank" required>
+                    <option value="">Select</option>
+                    <option *ngFor="let b of banks" [value]="b.id">{{b.bankName}}</option>
+                  </select>
+                </c-input-group>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Policy No.</b></p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilCopy"></svg></span>
+                    <input autoComplete="policyNo" cFormControl id="validationDefault05" type="text" name="policyNo"
+                      [(ngModel)]="addPolicy.policyNo" placeholder="Enter policy No." required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Plan Name</b></p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilDescription"></svg></span>
+                    <input autoComplete="planName" cFormControl id="validationDefault05" type="text" name="planName"
+                      [(ngModel)]="addPolicy.planName" placeholder="Enter Plan Name" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+
+              <!-- row 2 -->
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Sum Assured</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilDollar"></svg></span>
+                    <input autoComplete="sumAssured" cFormControl id="validationDefault05" type="text" name="sumAssured"
+                      [(ngModel)]="addPolicy.sumAssured" placeholder="Enter Sum Assured" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Policy Premium</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilDollar"></svg></span>
+                    <input autoComplete="premium" cFormControl id="validationDefault05" type="text" name="premium"
+                      [(ngModel)]="addPolicy.premium" placeholder="Enter Policy Premium" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Policy Due Date Mode</b>
+                </p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilHistory"></svg></span>
+                  <select name="dueDateMode" cSelect [(ngModel)]="addPolicy.dueDateMode" required>
+                    <option>Select Due Date Mode</option>
+                    <option *ngFor="let lt of dueDateModes" [value]="lt.id">{{lt.premiumMode}}</option>
+                  </select>
+                </c-input-group>
+              </c-col>
+
+              <!-- row 3 -->
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Date of Commencement</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <!-- <span cInputGroupText><svg cIcon name="cilCalendar"></svg></span> -->
+                    <mat-form-field appearance="fill">
+                      <mat-label>Date of Commencement</mat-label>
+                      <input name="commencementDate" [(ngModel)]="date1" matInput [matDatepicker]="commencementDate"
+                        (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
+                      <mat-datepicker-toggle matSuffix [for]="commencementDate"></mat-datepicker-toggle>
+                      <mat-datepicker #commencementDate>
+                      </mat-datepicker>
+                    </mat-form-field>
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Last Payment Date</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                    <mat-form-field appearance="fill">
+                      <mat-label>Last Payment Date</mat-label>
+                      <input name="lastPaymentDate" required [(ngModel)]="date2" matInput
+                        [matDatepicker]="lastPaymentDate" (dateInput)="addEvent2('input', $event)"
+                        (dateChange)="addEvent2('change', $event)">
+                      <mat-datepicker-toggle matSuffix [for]="lastPaymentDate"></mat-datepicker-toggle>
+                      <mat-datepicker #lastPaymentDate>
+                      </mat-datepicker>
+                    </mat-form-field>
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Maturity Date</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                    <mat-form-field appearance="fill">
+                      <mat-label>Maturity date</mat-label>
+                      <input name="maturityDate" required [(ngModel)]="date3" matInput [matDatepicker]="maturityDate"
+                        (dateInput)="addEvent3('input', $event)" (dateChange)="addEvent3('change', $event)">
+                      <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
+                      <mat-datepicker #maturityDate>
+                      </mat-datepicker>
+                    </mat-form-field>
+                  </c-input-group>
+                </div>
+              </c-col>
+
+
+              <!-- row 4 -->
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Policy Terms(in years)</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilCalendar"></svg></span>
+                    <input autoComplete="policyTerm" cFormControl id="validationDefault05" type="text" name="policyTerm"
+                      [(ngModel)]="addPolicy.policyTerm" placeholder="Enter Policy Terms(in years)" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Premium Paying Terms(in years)</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilCalendar"></svg></span>
+                    <input autoComplete="premiumPayingTerm" cFormControl id="validationDefault05" type="text"
+                      name="premiumPayingTerm" [(ngModel)]="addPolicy.premiumPayingTerm"
+                      placeholder="Enter Premium Paying Terms(in years)" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Premium Paid</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                    <input autoComplete="premiumsPaid" cFormControl id="validationDefault05" type="text"
+                      name="premiumsPaid" [(ngModel)]="addPolicy.premiumsPaid" placeholder="Enter Premiums Paid"
+                      required />
+                  </c-input-group>
+                </div>
+              </c-col>
+
+              <!-- row 5 -->
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Premiums Remaining</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                    <input autoComplete="premiumsRemaining" cFormControl id="validationDefault05" type="text"
+                      name="premiumsPaid" [(ngModel)]="addPolicy.premiumsRemaining" />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Nominee</b>
+                  </p>
+                  <c-input-group class="mb-3">
+                    <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                    <input autoComplete="nominee" cFormControl id="validationDefault05" type="text" name="nominee"
+                      [(ngModel)]="addPolicy.nominee" placeholder="Enter Nominee" required />
+                  </c-input-group>
+                </div>
+              </c-col>
+              <c-col [md]="4">
+                <div>
+                  <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Policy Status</b></p>
+                  <c-input-group class="mb-3">
+                    <select [(ngModel)]="addPolicy.policyStatus" disabled name="interestType" cSelect>
+                      <option value="0">Select</option>
+                      <option value="ACTIVE" selected>Active</option>
+                      <option value="CLOSED">Closed</option>
+                    </select>
+                  </c-input-group>
+                </div>
+              </c-col>
+
+              <c-col [md]="5"></c-col>
+              <c-col [md]="2">
+                <div>
+                  <button type="reset" cButton color="warning"><b>Clear</b></button>
+                  <button type="submit" cButton color="success">Submit</button>
+                </div>
+              </c-col>
+              <c-col [md]="5"></c-col>
+
+            </form>
+          </c-tab-pane>
+          <!-- tab3 Content -->
+          <c-tab-pane class="p-3 preview" role="tabpanel">
+            <!-- {{activePolicies | json}} -->
+            <form cForm cRow ngNativeValidate>
+              <c-col [md]="7">
+                <c-col xs="12" lg="12">
+                  <c-card class="mb-4">
+                    <c-card-header>
+                      Bar Chart
+                    </c-card-header>
+                    <c-card-body>
+                      <c-chart type="bar" [data]="chartBarData"></c-chart>
+                    </c-card-body>
+                  </c-card>
+                </c-col>
+              </c-col>
+              <c-col [md]="5">
+                <div>
+                  <c-col xs="12" lg="9">
+                    <c-card class="mb-12">
+                      <c-card-header>
+                        Doughnut Chart
+                      </c-card-header>
+                      <c-card-body>
+                        <c-chart type="doughnut" [data]="chartDoughnutData"></c-chart>
+                      </c-card-body>
+                    </c-card>
+                  </c-col>
+                </div>
+              </c-col>
+            </form>
+          </c-tab-pane>
+        </c-tab-content>
+
+      </c-card>
+    </c-col>
+
+
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-header class="text-left"><b>{{lifeInsurance.length}} records found</b></c-card-header>
+        <c-card-body>
+          <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+            <thead cTableColor="light">
+              <tr>
+                <th>S.No</th>
+                <th>Bank</th>
+                <th>Policy No</th>
+                <!-- <th>Plan Name</th> -->
+                <th>Sum Assured</th>
+                <th class="text-center">Commencement Date</th>
+                <th class="text-center">Premium Paid/Premium Remaining</th>
+                <th>Premium</th>
+                <!-- <th class="text-center">Due Date Mode</th>
+                <th>Policy Term</th>
+                <th>Premium Paying Term</th> -->
+                <th>Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{lifeInsurance | json}} -->
+              <tr *ngFor="let li of lifeInsurance; index as i">
+                <td class="text-center">{{i+1}}</td>
+                <td>
+                  <div *ngIf="li.status; else closed" class="center">
+                    <c-avatar size="md" src="{{ li.imgPath }}/{{li.bank}}.png" status="warning"></c-avatar>
+                  </div>
+                  <ng-template #closed>
+                    <div>
+                      <c-avatar size="md" src="{{ li.logoName }}/{{li.bank}}.png" status="success"></c-avatar>
+                    </div>
+                  </ng-template>
+                </td>
+                <td>
+                  <div>
+                    <strong>{{ li.planName }}</strong>
+                  </div>
+                  <div class="small text-medium-emphasis">
+                    <span>{{ li.policyNo }}</span>
+                  </div>
+                </td>
+                <td>
+                  <strong>Rs. {{ li.sumAssured }}</strong>
+                </td>
+                <td class="text-center">
+                  {{ li.commencementDate }}
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-start">
+                      {{ li.premiumsPaid }}/{{li.premiumsRemaining+li.premiumsPaid}}
+                    </div>
+                    <div class="float-end">
+                      <small class="text-medium-emphasis">
+                        <strong>{{ (li.premiumsPaid/(li.premiumsRemaining+li.premiumsPaid)) | percent}}</strong>
+                      </small>
+                    </div>
+                  </div>
+                  <div *ngIf="li.status; else paid" class="center">
+                    <c-progress thin>
+                      <c-progress-bar [value]="li.premiumsPaid/(li.premiumsRemaining+li.premiumsPaid)*100"
+                        color="warning">
+                      </c-progress-bar>
+                    </c-progress>
+                  </div>
+                  <ng-template #paid>
+                    <div class="center">
+                      <c-progress thin>
+                        <c-progress-bar [value]="li.premiumsPaid/(li.premiumsPaid+li.premiumsRemaining)*100"
+                          color="success">
+                        </c-progress-bar>
+                      </c-progress>
+                    </div>
+                  </ng-template>
+                </td>
+                <td class="text-center">
+                  {{ li.premium }}
+                </td>
+                <td class="text-center">
+                  {{ li.status }}
+                </td>
+                <td class="text-center">
+                  <c-badge type="submit" class="me-1" [routerLink]="'/base/life-insurance-premiums/'+li.policyId"
+                    color="primary"><svg cIcon name="cilChart"></svg></c-badge>
+                  <c-badge type="submit" class="me-1" color="success"><svg cIcon name="cilPencil"></svg></c-badge>
+                  <c-badge type="submit" class="me-1" color="danger"
+                    (click)="deletePolicy(li.policyId, li.policyNo)"><svg cIcon name="cilTrash"></svg></c-badge>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+  </c-row>
+</div>
