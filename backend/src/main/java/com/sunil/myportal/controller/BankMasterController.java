@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sunil.myportal.config.SystemInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +24,8 @@ import com.sunil.myportal.service.BankMasterService;
 @CrossOrigin("*")
 public class BankMasterController {
 
+    @Autowired
+    private Environment env;
 
     @Autowired
     private BankMasterService bankMasterService;
@@ -57,7 +60,8 @@ public class BankMasterController {
     @GetMapping("/system-info")
     public String testApi() {
         SystemInfo si = new SystemInfo();
-        return si.diskInfo();
+       return env.getProperty("spring.datasource.url");
+       // return si.diskInfo();
 
     }
 }
