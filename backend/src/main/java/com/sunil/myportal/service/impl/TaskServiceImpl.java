@@ -96,6 +96,34 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public TaskResponse markTaskAsUndone(Long taskId) {
+		TaskResponse taskResponse = new TaskResponse();
+		TaskMaster task = this.taskRepository.getById(taskId);
+		Long updatedTaskId = 0L;
+		try {
+			if (task!=null) {
+				task.setTaskStatus(StatusConstant.STATUS_PENDING);
+				task.setModifiedBy("sunilkmr5775");
+				task.setModifiedDate(LocalDateTime.now());
+				this.taskRepository.save(task);
+				taskResponse.setTitle(task.getTitle());
+				taskResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+				taskResponse.setErrorCode(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_EC);
+				taskResponse.setErrorDescription(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_ED);
+
+				return taskResponse;
+			}
+		} catch (Exception e) {
+			taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
+			taskResponse.setTitle(task.getTitle());
+			taskResponse.setErrorCode(ExceptionConstant.FILE_NOT_SAVED_EC);
+			taskResponse.setErrorDescription(e.getMessage());
+			return taskResponse;
+		}
+		return taskResponse;
+	}
+
+	@Override
 	public List<TaskMaster> getAllTasks() {
 //		return new ArrayList<>(this.bankMasterRepository.findAllByOrderByBankNameAsc());
 		return new ArrayList<>(taskRepository.findAll(Sort.by(Sort.Direction.ASC, "plannedStartDate")));

@@ -1,280 +1,298 @@
 <div class="fade-in">
     <c-row ngPreserveWhitespaces>
-      <c-col xs="12">
-        <c-card class="mb-4">
-          <c-card-header>
-            <c-nav variant="tabs">
-              <!-- {{banks | json}} -->
-              <!-- {{loan | json}} -->
-              <!-- {{addLoan | json}} -->
-  
-              <!-- tab1 -->
-              <c-nav-item>
-                <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
-                  <svg cIcon class="me-2" name="cilSearch"></svg>
-                  <strong style="color: rgb(78, 76, 76);">Search Task</strong>
-                </a>
-              </c-nav-item>
-  
-              <!-- tab2 -->
-              <c-nav-item>
-                <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
-                  <svg cIcon class="me-2" name="cilPlus"></svg>
-                  <strong style="color: rgb(78, 76, 76);">Add Task</strong>
-                </a>
-              </c-nav-item>
-              <!-- tab3 -->
-              <!-- <c-nav-item>
+        <c-col xs="12">
+            <c-card class="mb-4">
+                <c-card-header>
+                    <c-nav variant="tabs">
+                        <!-- {{banks | json}} -->
+                        <!-- {{loan | json}} -->
+                        <!-- {{addLoan | json}} -->
+
+                        <!-- tab1 -->
+                        <c-nav-item>
+                            <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
+                                <svg cIcon class="me-2" name="cilSearch"></svg>
+                                <strong style="color: rgb(78, 76, 76);">Search Task</strong>
+                            </a>
+                        </c-nav-item>
+
+                        <!-- tab2 -->
+                        <c-nav-item>
+                            <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
+                                <svg cIcon class="me-2" name="cilPlus"></svg>
+                                <strong style="color: rgb(78, 76, 76);">Add Task</strong>
+                            </a>
+                        </c-nav-item>
+                        <!-- tab3 -->
+                        <!-- <c-nav-item>
                 <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="2" cNavLink>
                   <svg cIcon class="me-2" color="warning" name="cilBarChart"></svg>
                   <c-badge class="me-2" color="warning"><svg cIcon name="cilChartPie"></svg></c-badge>
                   <strong style="color: rgb(78, 76, 76);">Chart Data</strong>
                 </a>
               </c-nav-item> -->
-  
-            </c-nav>
-          </c-card-header>
-  
-          <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="1" cRounded="bottom">
-            <!-- tab1 Content -->
-            <c-tab-pane class="p-3 preview" role="tabpanel">
-              <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="searchTask()">
-                <c-col [md]="4">
-                  <div>
-                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Title</b>
-                    </p>
-                    <c-input-group class="mb-3">
-                      <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                      <input autoComplete="title" cFormControl id="validationDefault05" type="text" name="title"
-                        [(ngModel)]="filterTask.title" placeholder="Enter Title" />
-                    </c-input-group>
-                  </div>
-                </c-col>
-                
-                
-                <c-col [md]="4">
-                  <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Task Status</b>
-                  </p>
-                  <select name="taskStatus" [(ngModel)]="filterTask.taskStatus" cSelect>
-                    <option value="All">All</option>
-                    <option value="PENDING">PENDING</option>
-                    <option value="COMPLETED">COMPLETED</option>
-                  </select>
-                </c-col>
-                <c-col [md]="5"></c-col>
-  
-                <c-col [md]="2">
-                  <div>
-                    <button type="reset" cButton color="warning"><b>Reset</b></button>
-                    <button type="submit" cButton color="success">Search</button>
-                  </div>
-                </c-col>
-                <c-col [md]="5"></c-col>
-              </form>
-            </c-tab-pane>
-  
-            <!-- tab2 Content -->
-            <!-- {{addTask | json}} -->
-            <c-tab-pane class="p-3 preview" role="tabpanel">
-              <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="addNewTask()">
-                <!-- <div class="row"> -->
-                <c-col [md]="4">
-                  <div>
-                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Title</b></p>
-                    <c-input-group class="mb-3">
-                      <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                      <input autoComplete="title" cFormControl id="validationDefault05" type="text" name="title"
-                        [(ngModel)]="addTask.title" placeholder="Enter title" required />
-                    </c-input-group>
-                  </div>
-                </c-col>
-                <c-col [md]="4">
-                    <div>
-                      <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Description</b>
-                      </p>
-                      <c-input-group class="mb-3">
-                        <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                        <!-- <textarea ng-model="myTextarea"></textarea> -->
-                        <textarea autoComplete="description" cFormControl id="validationDefault05" type="text" name="description"
-                          [(ngModel)]="addTask.description" placeholder="Enter description" ></textarea>
-                      </c-input-group>
-                    </div>
-                  </c-col>
-                <c-col [md]="4">
-                  <div>
-                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Task Status</b></p>
-                    <c-input-group class="mb-3">
-                      <select disabled name="interestType" cSelect>
-                        <option value="0">Select</option>
-                        <option value="PENDING" selected>PENDING`</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                      </select>
-                    </c-input-group>
-                  </div>
-                </c-col>
-                <c-col [md]="4">
-                  <div>
-                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Planned Action Date</b>
-                    </p>
-                    <c-input-group class="mb-3">
-                      <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
-                      <mat-form-field appearance="fill">
-                        <mat-label>Planned Action Date</mat-label>
-                        <input name="plannedActionDate" [(ngModel)]="date1" matInput [matDatepicker]="plannedstartdate"
-                          (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
-                        <mat-datepicker-toggle matSuffix [for]="plannedstartdate"></mat-datepicker-toggle>
-                        <mat-datepicker #plannedstartdate>
-                        </mat-datepicker>
-                      </mat-form-field>
-                    </c-input-group>
-                  </div>
-                </c-col>
-                <c-col [md]="4">
-                  <div>
-                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Planned End Date</b>
-                    </p>
-                    <c-input-group class="mb-3">
-                      <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
-                      <mat-form-field appearance="fill">
-                        <mat-label>Planned End date</mat-label>
-                        <input name="plannedEndDate" required [(ngModel)]="date2" matInput [matDatepicker]="plannedenddate"
-                          (dateInput)="addEvent2('input', $event)" (dateChange)="addEvent2('change', $event)">
-                        <mat-datepicker-toggle matSuffix [for]="plannedenddate"></mat-datepicker-toggle>
-                        <mat-datepicker #plannedenddate>
-                        </mat-datepicker>
-                      </mat-form-field>
-                    </c-input-group>
-                  </div>
-                </c-col>
-                <c-col [md]="4">
-                    <div>
-                      <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Task Priority</b></p>
-                      <c-input-group class="mb-3">
-                        <select name="priority" cSelect [(ngModel)]="addTask.priority">
-                          <option value="0">Select</option>
-                          <option value="HIGH" >HIGH</option>
-                          <option value="MEDIUM">MEDIUM</option>
-                          <option value="LOW">LOW</option>
-                        </select>
-                      </c-input-group>
-                    </div>
-                  </c-col>
-                <c-col [md]="5"></c-col>
-                <c-col [md]="2">
-                  <div>
-                    <button type="reset" cButton color="warning"><b>Clear</b></button>
-                    <button type="submit" cButton color="success">Submit</button>
-                  </div>
-                </c-col>
-                <c-col [md]="5"></c-col>
-  
-              </form>
-            </c-tab-pane>
-            <!-- tab3 Content -->
-            <c-tab-pane class="p-3 preview" role="tabpanel">
-              <!-- {{activeLoans | json}} -->
-              <form cForm cRow ngNativeValidate>
-                <c-col [md]="7">
-                  <c-col xs="12" lg="12">
-                    <c-card class="mb-4">
-                      <c-card-header>
-                        Bar Chart
-                      </c-card-header>
-                      <c-card-body>
-                        <c-chart type="bar" [data]="chartBarData"></c-chart>
-                      </c-card-body>
-                    </c-card>
-                  </c-col>
-                </c-col>
-                <c-col [md]="5">
-                  <div>
-                    <c-col xs="12" lg="9">
-                      <c-card class="mb-12">
-                        <c-card-header>
-                          Doughnut Chart
-                        </c-card-header>
-                        <c-card-body>
-                          <c-chart type="doughnut" [data]="chartDoughnutData"></c-chart>
-                        </c-card-body>
-                      </c-card>
-                    </c-col>
-                  </div>
-                </c-col>
-              </form>
-            </c-tab-pane>
-          </c-tab-content>
-        </c-card>
-  
-      </c-col>
-      <c-col xs>
-        <c-card class="mb-4">
-          <c-card-header class="text-left"><b>{{tasks.length}} records found</b></c-card-header>
-          <c-card-body>
-            <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
-              <thead cTableColor="light">
-                <tr>
-                  <th>S.No</th>
-                  <th>Title</th>
-                  <th>Planned Start Date</th>
-                  <th>Planned End Date</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th class="text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- {{tasks | json}} -->
-                <tr *ngFor="let task of tasks; index as i">
-                  <td> <strong>{{i+1}}</strong></td>
-                  <td>
-                    <div>
-                      <strong>{{ task.title }}</strong>
-                    </div>
-                   </td>
-                   <td>
-                      <span>{{ task.plannedStartDate | date }}</span>
-                  </td>
-                  <td>
-                    <span>{{ task.plannedEndDate | date }}</span>
-                </td>
-                <td>
-                    <div *ngIf="task.priority=='LOW'"><c-badge class="me-1" color="success">LOW</c-badge></div>
-                    <div *ngIf="task.priority=='HIGH'"><c-badge class="me-1" color="danger">HIGH</c-badge></div>
-                    <div *ngIf="task.priority=='MEDIUM'"><c-badge class="me-1" color="warning">MEDIUM</c-badge></div>
-                </td>
-                <td>
-                    <div *ngIf="task.taskStatus=='PENDING'">
-                    <c-badge class="me-1" color="warning"><svg cIcon
-                      name="cilClock"></svg></c-badge>
-                    </div>
-                    <div *ngIf="task.taskStatus=='COMPLETED'">
-                      <c-badge class="me-1" color="success"><svg cIcon
-                        name="cilCheckCircle"></svg></c-badge>
-                      </div>
-                  </td>
-                 
-                  <td class="text-center">
-                    <c-badge class="me-1" color="info"><svg cIcon name="cilFolderOpen"></svg></c-badge>
-                    <c-badge type="submit" class="me-1" color="danger" (click)="deleteTask(task.id, task.title)"><svg
-                        cIcon name="cilTrash"></svg></c-badge>
-                   
-                        <span *ngIf="task.taskStatus=='PENDING'; else completed">
-                            <c-badge type="submit" class="me-1" color="success" matTooltip="Mark as done"
-                            [matTooltipPosition]="'above'" (click)="markAsDone(task.id, task.title)"><svg
-                               cIcon name="cilTask"></svg></c-badge>
-                        </span>
-                        <ng-template  #completed>
-                            <c-badge type="submit" class="me-1" color="secondary"
-                            matTooltip="Task done" [matTooltipPosition]="'above'" ><svg cIcon name="cilTask"></svg></c-badge>
-                        </ng-template>
-                              
-                              
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </c-card-body>
-        </c-card>
-      </c-col>
+
+                    </c-nav>
+                </c-card-header>
+
+                <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="1" cRounded="bottom">
+                    <!-- tab1 Content -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="searchTask()">
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Title</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                        <input autoComplete="title" cFormControl id="validationDefault05" type="text"
+                                            name="title" [(ngModel)]="filterTask.title" placeholder="Enter Title" />
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+
+
+                            <c-col [md]="4">
+                                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Task Status</b>
+                                </p>
+                                <select name="taskStatus" [(ngModel)]="filterTask.taskStatus" cSelect>
+                                    <option value="All">All</option>
+                                    <option value="PENDING">PENDING</option>
+                                    <option value="COMPLETED">COMPLETED</option>
+                                </select>
+                            </c-col>
+                            <c-col [md]="5"></c-col>
+
+                            <c-col [md]="2">
+                                <div>
+                                    <button type="reset" cButton color="warning"><b>Reset</b></button>
+                                    <button type="submit" cButton color="success">Search</button>
+                                </div>
+                            </c-col>
+                            <c-col [md]="5"></c-col>
+                        </form>
+                    </c-tab-pane>
+
+                    <!-- tab2 Content -->
+                    <!-- {{addTask | json}} -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="addNewTask()">
+                            <!-- <div class="row"> -->
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Title</b></p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                        <input autoComplete="title" cFormControl id="validationDefault05" type="text"
+                                            name="title" [(ngModel)]="addTask.title" placeholder="Enter title"
+                                            required />
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Description</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                        <!-- <textarea ng-model="myTextarea"></textarea> -->
+                                        <textarea autoComplete="description" cFormControl id="validationDefault05"
+                                            type="text" name="description" [(ngModel)]="addTask.description"
+                                            placeholder="Enter description"></textarea>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Task Status</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <select disabled name="interestType" cSelect>
+                                            <option value="0">Select</option>
+                                            <option value="PENDING" selected>PENDING`</option>
+                                            <option value="COMPLETED">COMPLETED</option>
+                                        </select>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Planned Action
+                                            Date</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Planned Action Date</mat-label>
+                                            <input name="plannedActionDate" [(ngModel)]="date1" matInput
+                                                [matDatepicker]="plannedstartdate"
+                                                (dateInput)="addEvent1('input', $event)"
+                                                (dateChange)="addEvent1('change', $event)">
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="plannedstartdate"></mat-datepicker-toggle>
+                                            <mat-datepicker #plannedstartdate>
+                                            </mat-datepicker>
+                                        </mat-form-field>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Planned End
+                                            Date</b>
+                                    </p>
+                                    <c-input-group class="mb-3">
+                                        <!-- <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> -->
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Planned End date</mat-label>
+                                            <input name="plannedEndDate" required [(ngModel)]="date2" matInput
+                                                [matDatepicker]="plannedenddate"
+                                                (dateInput)="addEvent2('input', $event)"
+                                                (dateChange)="addEvent2('change', $event)">
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="plannedenddate"></mat-datepicker-toggle>
+                                            <mat-datepicker #plannedenddate>
+                                            </mat-datepicker>
+                                        </mat-form-field>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="4">
+                                <div>
+                                    <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Task
+                                            Priority</b></p>
+                                    <c-input-group class="mb-3">
+                                        <select name="priority" cSelect [(ngModel)]="addTask.priority">
+                                            <option value="0">Select</option>
+                                            <option value="HIGH">HIGH</option>
+                                            <option value="MEDIUM">MEDIUM</option>
+                                            <option value="LOW">LOW</option>
+                                        </select>
+                                    </c-input-group>
+                                </div>
+                            </c-col>
+                            <c-col [md]="5"></c-col>
+                            <c-col [md]="2">
+                                <div>
+                                    <button type="reset" cButton color="warning"><b>Clear</b></button>
+                                    <button type="submit" cButton color="success">Submit</button>
+                                </div>
+                            </c-col>
+                            <c-col [md]="5"></c-col>
+
+                        </form>
+                    </c-tab-pane>
+                    <!-- tab3 Content -->
+                    <c-tab-pane class="p-3 preview" role="tabpanel">
+                        <!-- {{activeLoans | json}} -->
+                        <form cForm cRow ngNativeValidate>
+                            <c-col [md]="7">
+                                <c-col xs="12" lg="12">
+                                    <c-card class="mb-4">
+                                        <c-card-header>
+                                            Bar Chart
+                                        </c-card-header>
+                                        <c-card-body>
+                                            <c-chart type="bar" [data]="chartBarData"></c-chart>
+                                        </c-card-body>
+                                    </c-card>
+                                </c-col>
+                            </c-col>
+                            <c-col [md]="5">
+                                <div>
+                                    <c-col xs="12" lg="9">
+                                        <c-card class="mb-12">
+                                            <c-card-header>
+                                                Doughnut Chart
+                                            </c-card-header>
+                                            <c-card-body>
+                                                <c-chart type="doughnut" [data]="chartDoughnutData"></c-chart>
+                                            </c-card-body>
+                                        </c-card>
+                                    </c-col>
+                                </div>
+                            </c-col>
+                        </form>
+                    </c-tab-pane>
+                </c-tab-content>
+            </c-card>
+        </c-col>
+
+        <!-- Task List -->
+        <c-col xs>
+            <c-card class="mb-4">
+                <c-card-header class="text-left"><b>{{tasks.length}} records found</b></c-card-header>
+                <c-card-body>
+                    <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable
+                        class="mb-0 border">
+                        <thead cTableColor="light">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Title</th>
+                                <th>Planned Start Date</th>
+                                <th>Planned End Date</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- {{tasks | json}} -->
+                            <tr *ngFor="let task of tasks; index as i"  >
+                                <td [class.stroke]="task.taskStatus=='COMPLETED'"> <strong>{{i+1}}</strong>
+                                </td>
+                                <td [class.stroke]="task.taskStatus=='COMPLETED'">
+                                    <div>
+                                        <strong>{{ task.title }}</strong>
+                                    </div>
+                                </td>
+                                <td [class.stroke]="task.taskStatus=='COMPLETED'">
+                                    <span>{{ task.plannedStartDate | date }}</span>
+                                </td>
+                                <td [class.stroke]="task.taskStatus=='COMPLETED'">
+                                    <span>{{ task.plannedEndDate | date }}</span>
+                                </td>
+                                <td>
+                                    <div *ngIf="task.priority=='LOW'"><c-badge class="me-1"
+                                            color="success">LOW</c-badge></div>
+                                    <div *ngIf="task.priority=='HIGH'"><c-badge class="me-1"
+                                            color="danger">HIGH</c-badge></div>
+                                    <div *ngIf="task.priority=='MEDIUM'"><c-badge class="me-1"
+                                            color="warning">MEDIUM</c-badge></div>
+                                </td>
+                                <td>
+                                    <div *ngIf="task.taskStatus=='PENDING'">
+                                        <c-badge class="me-1" color="warning"><svg cIcon
+                                                name="cilClock"></svg></c-badge>
+                                    </div>
+                                    <div *ngIf="task.taskStatus=='COMPLETED'" >
+                                        <c-badge class="me-1" color="success"><svg cIcon
+                                                name="cilCheckCircle"></svg></c-badge>
+                                    </div>
+                                </td>
+
+                                <td class="text-center">
+                                    <c-badge class="me-1" color="info"><svg cIcon name="cilFolderOpen"></svg></c-badge>
+                                    <c-badge type="submit" class="me-1" color="danger"
+                                        (click)="deleteTask(task.id, task.title)"><svg cIcon
+                                            name="cilTrash"></svg></c-badge>
+
+                                    <span *ngIf="task.taskStatus=='PENDING'; else completed">
+                                        <c-badge type="submit" class="me-1" color="success" matTooltip="Mark as done"
+                                            [matTooltipPosition]="'above'"
+                                            (click)="markAsDone(task.id, task.title)"><svg cIcon
+                                                name="cilTask"></svg></c-badge>
+                                    </span>
+                                    <ng-template #completed>
+                                        <c-badge type="submit" class="me-1" color="secondary" matTooltip="Mark as undone"
+                                            [matTooltipPosition]="'above'" (click)="markAsUnDone(task.id, task.title)"><svg cIcon name="cilTask"></svg></c-badge>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-card-body>
+            </c-card>
+        </c-col>
     </c-row>
-  </div>
+</div>

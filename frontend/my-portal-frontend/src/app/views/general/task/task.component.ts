@@ -178,8 +178,8 @@ export class TaskComponent implements OnInit {
       }
     );
   }
-  markAsDone(taskId: any, title: any){
 
+  markAsDone(taskId: any, title: any){
     console.log("TASK ID MARKED AS DONE: " + taskId);
     Swal.fire({
       icon: "question",
@@ -192,7 +192,7 @@ export class TaskComponent implements OnInit {
         this._task.markAsDone(taskId).subscribe(
           (data: any) => {
            // this.tasks = this.tasks.filter((task: any) => task.id != taskId);
-            Swal.fire('Success !!!', 'Title <b>' + title + '</b> deleted successfully !!!', 'success');
+            Swal.fire('Success !!!', 'Task <b>' + title + '</b> marked as done successfully !!!', 'success');
             this.fetchAllTasks();
           }, (error) => {
             console.log('Error !' + error);
@@ -201,9 +201,31 @@ export class TaskComponent implements OnInit {
         );
       }
     })
-
   }
 
+  markAsUnDone(taskId: any, title: any){
+    alert("TASK ID MARKED AS DONE: " + taskId);
+    Swal.fire({
+      icon: "question",
+      title: 'Are you sure you want to mark task <b>' + title + '</b> as undone ?',
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //  delete the category
+        this._task.markAsUndone(taskId).subscribe(
+          (data: any) => {
+           // this.tasks = this.tasks.filter((task: any) => task.id != taskId);
+            Swal.fire('Success !!!', 'Task <b>' + title + '</b> marke as undone!!!', 'success');
+            this.fetchAllTasks();
+          }, (error) => {
+            console.log('Error !' + error);
+            Swal.fire('Error !!!', 'Error in Marking task <b>' + title + '</b> as undone', 'error');
+          }
+        );
+      }
+    })
+  }
 
   deleteTask(taskId: any, title: any) {
     console.log("TASK ID DELETED: " + taskId);
