@@ -39,6 +39,10 @@ export class TaskService {
     return this._http.put(`${baseUrl}/tasks/${taskId}`, { responseType: 'text' });
   }
 
+  // Mark Task As Undone
+  public markAsUndone(taskId: string): Observable<any> {
+    return this._http.put(`${baseUrl}/tasks/undone/${taskId}`, { responseType: 'text' });
+  }
   // getAllActiveLoans() {
   //   return this._http.get(`${baseUrl}/tasks/active/`);
   // }

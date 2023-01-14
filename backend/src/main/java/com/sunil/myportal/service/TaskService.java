@@ -23,4 +23,6 @@ public interface TaskService {
 	TaskResponse addNewTask(TaskRequest taskRequest);
 
 	TaskResponse markTaskAsCompleted(Long taskId);
+
+	TaskResponse markTaskAsUndone(Long taskId);
 }

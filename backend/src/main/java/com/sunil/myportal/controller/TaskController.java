@@ -81,6 +81,13 @@ public class TaskController {
 		return this.taskService.markTaskAsCompleted(taskId);
 
 	}
+	//	 MARK TASK AS COMPLETED
+	@PutMapping("undone/{taskId}")
+	public TaskResponse markTaskAsUndone(@PathVariable Long taskId) {
+		return this.taskService.markTaskAsUndone(taskId);
+
+	}
+
 	@GetMapping("/sort")
 	public List<TaskMaster> sortByTaskTitle(@RequestParam String direction) {
 		return this.taskService.sortByTaskTitle(direction);
