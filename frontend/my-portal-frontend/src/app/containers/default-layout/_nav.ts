@@ -35,7 +35,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Database',
-        url: '/base/loans'
+        url: '/general/database-information'
       },
       {
         name: 'Logs',

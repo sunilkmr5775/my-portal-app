@@ -40,7 +40,10 @@ public class EmiServiceImpl implements EmiService {
 				emi.setEmiDate(emi.getEmiDate());
 				emi.setLateFineCharge(defaultAamount);
 				emi.setInterestAmount(defaultAamount.add(emi.getEmiAmount()));
-				emi.setStatus(emi.isEmiStatus()==true?StatusConstant.STATUS_PAID:emi.isEmiStatus()==false?StatusConstant.STATUS_UNPAID.toString():StatusConstant.STATUS_UNKNOWN);
+				emi.setStatus(
+						emi.isEmiStatus()==true?StatusConstant.STATUS_PAID
+					   :emi.isEmiStatus()==false?StatusConstant.STATUS_UNPAID.toString()
+					   :StatusConstant.STATUS_UNKNOWN);
 				emi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
 				emi.setCreatedBy("sunilkumar5775");
 				emi.setCreatedDate(LocalDateTime.now());
