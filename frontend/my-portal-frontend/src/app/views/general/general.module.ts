@@ -60,6 +60,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { BaseRoutingModule } from '../base/base-routing.module';
 import { ChartsRoutingModule } from '../charts/charts-routing.module';
 import { TaskComponent } from './task/task.component';
+import { DatabaseInformationComponent } from './database-information/database-information.component';
 
 
 
@@ -67,7 +68,8 @@ import { TaskComponent } from './task/task.component';
 @NgModule({
   declarations: [
     JobMasterComponent,
-    TaskComponent
+    TaskComponent,
+    DatabaseInformationComponent
   ],
   imports: [
 
