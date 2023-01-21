@@ -31,4 +31,12 @@ public class SystemInformationController {
         return this.systemInformationService.getSystemInformationDetails();
 
     }
+
+    //  FREE SYSTEM MEMORY
+    @GetMapping("/free-jvm")
+    public String freeJvmMemory() throws SQLException {
+         System.gc();
+         return "Memory cleared...";
+    }
+
 }

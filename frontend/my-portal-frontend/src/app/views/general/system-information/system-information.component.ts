@@ -44,10 +44,11 @@ export class SystemInformationComponent implements OnInit {
 
   systemInfo: any = [];
   systemInfoArray: string[] = [];
-
+  chartBarData:any;
+  chartDoughnutData:any;
   // Method area
   getSystemInfoDetails() {
-    this._systemInformationService.getSystemInformation().subscribe(
+    this._systemInformationService.getSystemInformation().pipe().subscribe(
       (data: any) => {
         this.systemInfo = data;
         this.systemInfoArray.push(this.systemInfo.current);
@@ -55,6 +56,8 @@ export class SystemInformationComponent implements OnInit {
         this.systemInfoArray.push(this.systemInfo.free);
         this.systemInfoArray.push(this.systemInfo.maximumHeap);
         console.log('SYSTEM INFORMATION:', this.systemInfo);
+        this.getChartData(this.systemInfoArray);
+        this.getChartDoughnutData(this.systemInfoArray);
       }, (error) => {
         console.log('Error !' + error);
         this._snack.open("Some error occured while loading system information", '', {
@@ -64,30 +67,33 @@ export class SystemInformationComponent implements OnInit {
     );
   }
 
-  param = ['Current-Heap', 'Used-RAM', 'Free-RAM', 'Maximu-RAM'];
+  
+  param = ['Current-Heap-Size', 'Used-Heap', 'Free Memory', 'Total JVM'];
  
-  test:any=50;
-  chartBarData = {
+getChartData(systemInfoArray:any){  
+  this.chartBarData = {
     labels: [...this.param].slice(0, 4),
     datasets: [
       {
-        label: 'System Information',
+        label: 'System Information(in GB)',
         backgroundColor: '#CB4335',
-        data: this.systemInfoArray //[40, 20, 12, 39, 17, 42, 79]
+        data: systemInfoArray
       }
     ]
-  };
+  };}
 
-
-  chartDoughnutData = {
-    labels: ['VueJs', 'EmberJs', 'ReactJs', 'Angular'],
-    datasets: [
-      {
-        backgroundColor: ['#DD1B16','#00D8FF', '#FFFF00','#41B883'],
-        data: this.systemInfoArray //[40, 20, 80, 10]
-      }
-    ]
-  };
+  getChartDoughnutData(systemInfoArray:any){
+    this.chartDoughnutData = {
+      labels: ['Current-Heap-Size(in GB)', 'Used-Heap(in GB)', 'Free Memory(in GB)', 'Total JVM(in GB)'],
+      datasets: [
+        {
+          backgroundColor: ['#DD1B16','#00D8FF', '#FFFF00','#41B883'],
+          data: systemInfoArray
+        }
+      ]
+    };
+  }
+  
 
 
 }
