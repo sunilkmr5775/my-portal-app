@@ -239,7 +239,8 @@ export class TaskComponent implements OnInit {
         //  delete the category
         this._task.deleteTask(taskId).subscribe(
           (data: any) => {
-            this.tasks = this.tasks.filter((task: any) => task.id != taskId);
+            this.fetchAllTasks();
+            //this.tasks = this.tasks.filter((task: any) => task.id != taskId);
             Swal.fire('Success !!!', 'Title <b>' + title + '</b> deleted successfully !!!', 'success');
           }, (error) => {
             console.log('Error !' + error);

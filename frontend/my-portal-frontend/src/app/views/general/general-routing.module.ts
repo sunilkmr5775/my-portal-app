@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DatabaseInformationComponent } from './database-information/database-information.component';
 import { JobMasterComponent } from './job-master/job-master.component';
+import { SystemInformationComponent } from './system-information/system-information.component';
 import { TaskComponent } from './task/task.component';
 
 
@@ -37,6 +38,13 @@ const routes: Routes = [
         component: DatabaseInformationComponent,
         data: {
           title: 'Database Information'
+        }
+      },
+      {
+        path: 'system-information',
+        component: SystemInformationComponent,
+        data: {
+          title: 'System Information'
         }
       },
     ]

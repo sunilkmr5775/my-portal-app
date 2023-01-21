@@ -1,6 +1,7 @@
 package com.sunil.myportal.repository;
 
 import com.sunil.myportal.model.TaskMaster;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,6 @@ public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
 	@Query("SELECT c FROM TaskMaster c WHERE 1=1 and ( c.title like %:title%) " +
 			"and (:taskStatus is null or c.taskStatus = :taskStatus)")
 	List<TaskMaster> findTaskMasterDetailsByTitleAndTaskStatus(@Param("title") String title, @Param("taskStatus")String taskStatus);
+
+	List<TaskMaster> findAllByIsDeleted(Sort plannedStartDate, boolean isDeleted);
 }

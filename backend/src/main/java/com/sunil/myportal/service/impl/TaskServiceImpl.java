@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,10 @@ public class TaskServiceImpl implements TaskService {
 
 			task.setTitle(taskRequest.getTitle());
 			task.setDescription(taskRequest.getDescription());
-			task.setPlannedStartDate(taskRequest.getPlannedStartDate());
-			task.setPlannedEndDate(taskRequest.getPlannedEndDate());
+			task.setPlannedStartDate(taskRequest.getPlannedStartDate()==null?
+					LocalDate.now():taskRequest.getPlannedStartDate());
+			task.setPlannedEndDate(taskRequest.getPlannedEndDate()==null?
+					LocalDate.now():taskRequest.getPlannedEndDate());
 			task.setActualStartDate(taskRequest.getActualStartDate());
 			task.setActualEndDate(taskRequest.getActualEndDate());
 			task.setTaskStatus(StatusConstant.STATUS_PENDING);
@@ -75,6 +78,7 @@ public class TaskServiceImpl implements TaskService {
 		try {
 			if (task!=null) {
 				task.setTaskStatus(StatusConstant.STATUS_COMPLETED);
+				task.setActualEndDate(LocalDate.now());
 				task.setModifiedBy("sunilkmr5775");
 				task.setModifiedDate(LocalDateTime.now());
 				this.taskRepository.save(task);
@@ -126,15 +130,45 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<TaskMaster> getAllTasks() {
 //		return new ArrayList<>(this.bankMasterRepository.findAllByOrderByBankNameAsc());
-		return new ArrayList<>(taskRepository.findAll(Sort.by(Sort.Direction.ASC, "plannedStartDate")));
+		return new ArrayList<>(taskRepository.findAllByIsDeleted(Sort.by(Sort.Direction.DESC, "createdDate"), false));
 	}
 
 	@Override
+	public TaskResponse deleteTask(Long taskId) {
+		TaskResponse taskResponse = new TaskResponse();
+		TaskMaster task = this.taskRepository.getById(taskId);
+		Long updatedTaskId = 0L;
+		try {
+			if (task!=null) {
+				//task.setTaskStatus(StatusConstant.STATUS_DELETED);
+				task.setDeleted(true);
+				task.setModifiedBy("sunilkmr5775");
+				task.setModifiedDate(LocalDateTime.now());
+				this.taskRepository.save(task);
+				taskResponse.setTitle(task.getTitle());
+				taskResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+				taskResponse.setErrorCode(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_EC);
+				taskResponse.setErrorDescription(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_ED);
+
+				return taskResponse;
+			}
+		} catch (Exception e) {
+			taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
+			taskResponse.setTitle(task.getTitle());
+			taskResponse.setErrorCode(ExceptionConstant.FILE_NOT_SAVED_EC);
+			taskResponse.setErrorDescription(e.getMessage());
+			return taskResponse;
+		}
+		return taskResponse;
+	}
+
+/*	@Override
 	public void deleteTask(Long taskId) {
 		TaskMaster taskMaster = new TaskMaster();
 		taskMaster.setId(taskId);
-		this.taskRepository.delete(taskMaster);
-	}
+		taskMaster.setDeleted(true);
+		this.taskRepository.save(taskMaster);
+	}*/
 
 	@Override
 	public TaskMaster getTaskById(Long jobId) {

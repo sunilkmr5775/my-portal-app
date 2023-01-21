@@ -69,10 +69,9 @@ public class TaskController {
 	}
 
 //	 DELETE JOB BY ID
-	@DeleteMapping("/{taskId}")
-	public void deleteStatus(@PathVariable Long taskId) {
-		this.taskService.deleteTask(taskId);
-
+	@PutMapping("/delete/{taskId}")
+	public TaskResponse deleteTask(@PathVariable Long taskId) {
+		return this.taskService.deleteTask(taskId);
 	}
 
 	//	 MARK TASK AS COMPLETED

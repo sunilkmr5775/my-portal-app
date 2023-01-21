@@ -33,6 +33,9 @@ public class TaskMaster {
 	@Column(name = "PRIORITY")
 	private String priority;
 
+	@Column(name = "IS_DELETED")
+	private boolean isDeleted;
+
 	@Column(name = "PLANNED_START_DATE")
 	private LocalDate plannedStartDate;
 

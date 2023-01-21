@@ -238,7 +238,7 @@
                         </thead>
                         <tbody>
                             <!-- {{tasks | json}} -->
-                            <tr *ngFor="let task of tasks; index as i"  >
+                            <tr *ngFor="let task of tasks; index as i"  [ngStyle]="{'backgroundColor': task.taskStatus == 'PENDING' ? 'lightred' : 'lightgreen' }">
                                 <td [class.stroke]="task.taskStatus=='COMPLETED'"> <strong>{{i+1}}</strong>
                                 </td>
                                 <td [class.stroke]="task.taskStatus=='COMPLETED'">
