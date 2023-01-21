@@ -12,7 +12,7 @@ public interface TaskService {
 
 	public List<TaskMaster> getAllTasks();
 
-	public void deleteTask(Long taskId);
+	public TaskResponse deleteTask(Long taskId);
 
 	public TaskMaster getTaskById(Long taskId);
 

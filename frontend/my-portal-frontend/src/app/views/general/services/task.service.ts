@@ -31,7 +31,7 @@ export class TaskService {
 
   // delete task
   public deleteTask(taskId: string): Observable<any> {
-    return this._http.delete(`${baseUrl}/tasks/${taskId}`, { responseType: 'text' });
+    return this._http.put(`${baseUrl}/tasks/delete/${taskId}`, { responseType: 'text' });
   }
 
    // Mark Task As Done

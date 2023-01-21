@@ -61,15 +61,14 @@ import { BaseRoutingModule } from '../base/base-routing.module';
 import { ChartsRoutingModule } from '../charts/charts-routing.module';
 import { TaskComponent } from './task/task.component';
 import { DatabaseInformationComponent } from './database-information/database-information.component';
-
-
-
-
+import { SystemInformationComponent } from './system-information/system-information.component';
+import { WidgetsModule } from '../widgets/widgets.module';
 @NgModule({
   declarations: [
     JobMasterComponent,
     TaskComponent,
-    DatabaseInformationComponent
+    DatabaseInformationComponent,
+    SystemInformationComponent
   ],
   imports: [
 
@@ -141,7 +140,7 @@ import { DatabaseInformationComponent } from './database-information/database-in
     ButtonModule,
     FormModule,
     UtilitiesModule,
-    // ButtonGroupModule,
+    ButtonGroupModule,
     ReactiveFormsModule,
     SharedModule,
     TabsModule,
@@ -165,7 +164,8 @@ import { DatabaseInformationComponent } from './database-information/database-in
     ChartjsModule,
     // ChartsComponent,
     ChartsRoutingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    WidgetsModule
 
   ]
 })
