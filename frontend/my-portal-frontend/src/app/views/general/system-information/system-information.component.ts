@@ -66,10 +66,8 @@ export class SystemInformationComponent implements OnInit {
       }
     );
   }
-
   
-  param = ['Current-Heap-Size', 'Used-Heap', 'Free Memory', 'Total JVM'];
- 
+param = ['Current-Heap-Size', 'Used-Heap', 'Free Memory', 'Total JVM'];
 getChartData(systemInfoArray:any){  
   this.chartBarData = {
     labels: [...this.param].slice(0, 4),
@@ -93,7 +91,5 @@ getChartData(systemInfoArray:any){
       ]
     };
   }
-  
-
 
 }
