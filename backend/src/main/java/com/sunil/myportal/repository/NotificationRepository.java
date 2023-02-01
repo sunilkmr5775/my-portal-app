@@ -1,5 +1,6 @@
 package com.sunil.myportal.repository;
 
+import com.sunil.myportal.model.Notification;
 import com.sunil.myportal.model.TaskMaster;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-//	@Query(value = "SELECT * FROM BANK_MASTER ORDER BY BANK_NAME", nativeQuery = true)
+/*//	@Query(value = "SELECT * FROM BANK_MASTER ORDER BY BANK_NAME", nativeQuery = true)
 	public Set<TaskMaster> findAllByOrderByPlannedStartDateAsc();
 	
 	public Set<TaskMaster> findAllByOrderByTitleDesc();
@@ -24,5 +25,5 @@ public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
 
 	List<TaskMaster> findAllByIsDeleted(Sort plannedStartDate, boolean isDeleted);
 
-	List<TaskMaster> findAllByTaskStatus(String statusPending);
+	List<TaskMaster> findAllByTaskStatus(String statusPending);*/
 }

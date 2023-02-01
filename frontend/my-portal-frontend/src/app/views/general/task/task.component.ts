@@ -114,52 +114,19 @@ export class TaskComponent implements OnInit {
     );
   }
 
-  // fetchAllActiveTasks() {
-  //   // alert("fetchAllActiveLoans");
-  //   this._task.getAllActiveTasks().subscribe(
-  //     (data: any) => {
-  //       this.activeTasks = data;
-  //       this.activeLoanNoLabelArray.push(this.activeTasks.loanNo);
-  //       for (let activeTask of this.activeTasks) {
-  //         this.activeLoanLabelArray.push(activeTask.loanNo);
-  //         this.activeLoanDataArray.push(activeTask.emiRemaining);
-  //         this.activeLoanColorArray.push(activeTask.extAttr4);
-  //         this.activeLoanNoLabelArray.push(...activeTask.loanNo);
-  //      }
-    
-  //     // Bar Chart Data
-  //     this.chartBarData = {
-  //       labels:
-  //         [...this.activeLoanLabelArray].slice(0, this.activeTasks.length),
-  //         datasets: [
-  //           {
-  //             label: 'EMI Remaining',
-  //             backgroundColor: '#f87979',
-  //             data: this.activeLoanDataArray
-  //           }
-  //         ]
-  //     };
-
-  //     // Doughnut Chart Data
-  //     this.chartDoughnutData = {
-  //       labels: this.activeLoanLabelArray,
-  //       datasets: [
-  //         {
-  //           backgroundColor: this.activeLoanColorArray,
-  //           //['#41B883', '#E46651', '#00D8FF', '#DD1B16','#DD1B89'],
-  //           data: this.activeLoanDataArray
-  //         }
-  //       ]
-  //     };
-  //       console.log('ACTIVE TASK DETAILS:', this.activeTasks);
-  //     }, (error) => {
-  //       console.log('Error !', error);
-  //       this.snackBar.open("Some error occured while loading Active Task list", '', {
-  //         duration: 3000, verticalPosition: 'top',
-  //       });
-  //     }
-  //   );
-  // }
+  fetchAllActiveTasks() {
+    this._task.fetchAllActiveTasks().subscribe(
+      (data: any) => {
+        this.tasks = data;
+        console.log('LOAN DETAILS:', this.tasks);
+      }, (error) => {
+        console.log('Error !' + error);
+        this.snackBar.open("Some error occured while loading categories", '', {
+          duration: 3000, verticalPosition: 'top',
+        });
+      }
+    );
+  }
 
   public addNewTask() {
     // All done
@@ -171,6 +138,7 @@ export class TaskComponent implements OnInit {
         Swal.fire('Success !!!', 'Title ' + this.addTask.title + ' added successfully.', 'success');
         // this.resetFields();
         this.fetchAllTasks();
+        this.fetchAllActiveTasks();
         this.router.navigate(['/general/task-master']);
       }, (error) => {
         console.log('Error in add-loan', error);

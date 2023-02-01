@@ -41,6 +41,13 @@ public class TaskController {
 
 	}
 
+	//	 GET ALL ACTIVE Tasks
+	@GetMapping("/pending-task")
+	public List<TaskMaster> getAllActiveTasks() {
+		return new ArrayList<>(this.taskService.getAllActiveTasks());
+
+	}
+
 //	 GET Task BY ID
 	@GetMapping("/id/{taskId}")
 	public TaskMaster getTaskById(@PathVariable("taskId") Long taskId) {
@@ -68,7 +75,7 @@ public class TaskController {
 
 	}
 
-//	 DELETE JOB BY ID
+//	 DELETE TASK BY ID
 	@PutMapping("/delete/{taskId}")
 	public TaskResponse deleteTask(@PathVariable Long taskId) {
 		return this.taskService.deleteTask(taskId);

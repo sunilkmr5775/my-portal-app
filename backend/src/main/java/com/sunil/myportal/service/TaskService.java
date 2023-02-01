@@ -25,4 +25,6 @@ public interface TaskService {
 	TaskResponse markTaskAsCompleted(Long taskId);
 
 	TaskResponse markTaskAsUndone(Long taskId);
+
+	List<TaskMaster> getAllActiveTasks();
 }

@@ -59,21 +59,9 @@
         <artifactId>guava</artifactId>
         <version>11.0.2</version>
     </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
             <!-- Java Mail -->
             <!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-mail</artifactId>
                 <version>2.3.5.RELEASE</version> </dependency> -->
-
-            <!-- spring boot web -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
 
             <!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId>
                 <scope>runtime</scope> <optional>true</optional> </dependency> -->
@@ -237,21 +225,27 @@
                 <artifactId>spring-beans</artifactId>
                 <version>5.3.18</version>
             </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.3</version>
+            <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>com.sunil</groupId>
+            <artifactId>myportal-auth</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+
+        <!--        <dependency>-->
 <!--            <groupId>org.testng</groupId>-->
 <!--            <artifactId>testng</artifactId>-->
 <!--            <version>RELEASE</version>-->
 <!--            <scope>compile</scope>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-        </dependency>
+
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -288,11 +282,11 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.6</version>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <version>2.6.6</version>-->
+<!--            </plugin>-->
         </plugins>
         <finalName>my-portal-app</finalName>
     </build>

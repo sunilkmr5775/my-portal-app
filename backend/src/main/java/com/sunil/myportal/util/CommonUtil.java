@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,9 +30,7 @@ public class CommonUtil {
 	@Autowired
 	Environment environment;
 
-	public void getCurrentDate() {
 
-	}
 
 	public static boolean isStringNotNullandEmpty(String s) {
 		return (s != null && !"".equalsIgnoreCase(s.trim()));
@@ -140,14 +139,16 @@ public class CommonUtil {
 	}
 
 	public static LocalDateTime getCurrentDateTime() {
-		LocalDateTime formattedDateTime = LocalDateTime.now();
-		return formattedDateTime;
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		return currentDateTime;
+	}
+
+	public static LocalDate getCurrentDate() {
+		LocalDate currentDate = LocalDate.now();
+		return currentDate;
 	}
 
 	public static long findTimeDifference(LocalDateTime otpTimeStamp, LocalDateTime otpValidity) {
-
-
-
 		LocalDateTime now = LocalDateTime.now();
 //		LocalDateTime sixMinutesBehind = now.minusMinutes(6);
 		Duration duration = Duration.between(otpValidity, now);
@@ -157,6 +158,12 @@ public class CommonUtil {
 		System.out.println("diff in secs==> "+seconds);
 		return seconds;
 	
+	}
+	public static Long findDateDifferenceWithCurrentDate(LocalDate dateToCompare) {
+		//Days d = Days.daysBetween(LocalDate.now(), dateToCompare).getDays();
+		Duration duration = Duration.between(dateToCompare, LocalDate.now());
+		long diff = Math.abs(duration.toDays());
+		return diff;
 	}
 	
 	public static long findOtpTimeDifference(LocalDateTime otpTimeStamp, LocalDateTime otpValidity) {
@@ -248,5 +255,12 @@ public class CommonUtil {
 			return 	policyTerm ;
 		}
 		return policyTerm;
+	}
+
+	public static String generateUuid () {
+		UUID uuid = UUID.randomUUID();
+		String uuidAsString = uuid.toString();
+		System.out.println("Your UUID is: " + uuidAsString);
+		return uuidAsString;
 	}
 }
