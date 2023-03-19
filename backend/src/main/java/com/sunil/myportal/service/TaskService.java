@@ -5,6 +5,7 @@ import com.sunil.myportal.dto.TaskResponse;
 import com.sunil.myportal.model.TaskMaster;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,7 +19,6 @@ public interface TaskService {
 
 	public List<TaskMaster> sortByTaskTitle(String direction);
 
-	List<TaskMaster> getTaskRecordsByFiter(String taskTitle, String taskStatus);
 
 	TaskResponse addNewTask(TaskRequest taskRequest);
 
@@ -27,4 +27,6 @@ public interface TaskService {
 	TaskResponse markTaskAsUndone(Long taskId);
 
 	List<TaskMaster> getAllActiveTasks();
+
+	List<TaskMaster> getTaskRecordsByFilter(String taskTitle, String taskStatus, String taskYear, String taskMonth);
 }

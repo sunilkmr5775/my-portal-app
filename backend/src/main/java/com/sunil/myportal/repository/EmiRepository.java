@@ -1,5 +1,6 @@
 package com.sunil.myportal.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,11 @@ public interface EmiRepository extends JpaRepository<Emi, Long> {
 	@Query("select e from Emi e inner join fetch e.loan where e.eId=:id")
 	Emi findAllByEid(Long id);
 
+	boolean existsByEmiDate(LocalDate currentDate);
+
+	Emi findByEmiDateBetween(LocalDate fistDayOfCurrentMonth, LocalDate lastDayOfCurrentMonth);
+
+	Emi findByStatus(String statusUnpaid);
+
+	Emi findByLoanNoAndStatusAndEmiDateBetween(String loanId, String statusUnpaid, LocalDate fistDayOfCurrentMonth, LocalDate lastDayOfCurrentMonth);
 }

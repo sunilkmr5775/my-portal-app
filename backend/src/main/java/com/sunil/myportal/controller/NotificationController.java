@@ -2,12 +2,15 @@ package com.sunil.myportal.controller;
 
 import com.sunil.myportal.config.SystemInfo;
 import com.sunil.myportal.dto.BaseResponse;
+import com.sunil.myportal.dto.NotificationRequest;
 import com.sunil.myportal.dto.TaskResponse;
 import com.sunil.myportal.model.BankMaster;
+import com.sunil.myportal.model.Emi;
 import com.sunil.myportal.model.Notification;
 import com.sunil.myportal.service.BankMasterService;
 import com.sunil.myportal.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,14 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    //	 ADD EMI
+    @PostMapping("/")
+    public ResponseEntity<Notification> addNotification(@RequestBody NotificationRequest notificationRequest) {
+        System.out.println("NOTIFICATION Added");
+        return ResponseEntity.ok(this.notificationService.addNotification(notificationRequest));
+
+    }
+
     //	 GET ALL Notifications
     @GetMapping("/")
     public List<Notification> getAllNotifications() {
@@ -38,8 +49,8 @@ public class NotificationController {
 
     }
 
-    @PostMapping("/{send-notification}")
-    public Notification sendNotification(@PathVariable("notificationId") Long notificationId) {
+    @GetMapping("/send-notification")
+    public BaseResponse sendNotification() {
         return this.notificationService.sendNotification();
 
     }
@@ -51,16 +62,4 @@ public class NotificationController {
 
     }
 
-/*    @GetMapping("/sort")
-    public List<BankMaster> sortByBankName(@RequestParam String direction) {
-        return this.bankMasterService.sortByBankName(direction);
-    }
-
-    //	 ADD SYSTEM INFO
-    @GetMapping("/system-info")
-    public String testApi() {
-        SystemInfo si = new SystemInfo();
-        return si.diskInfo();
-
-    }*/
 }

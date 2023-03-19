@@ -61,6 +61,9 @@ public class Loan {
 	@Column(name = "DISBURSAL_DATE")
 	private LocalDate disbursalDate;
 
+	@Column(name = "LAST_PAID_EMI_DATE")
+	private LocalDate lastPaidEmiDate;
+
 	@Column(name = "FIRST_EMI_DATE")
 	private LocalDate firstEmiDate;
 

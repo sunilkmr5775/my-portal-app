@@ -1,0 +1,327 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4" id="AngularButton">
+
+      <c-card-header>
+        <c-nav variant="tabs">
+          <!-- tab1 -->
+          <c-nav-item>
+            <a [active]="true" [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="0" cNavLink>
+              <svg cIcon class="me-2" name="cilSearch"></svg>
+              <strong style="color: rgb(78, 76, 76);">Search Events</strong>
+            </a>
+          </c-nav-item>
+
+          <!-- tab2 -->
+          <c-nav-item>
+            <a [cTabContent]="tabContent1" routerLink="./" [tabPaneIdx]="1" cNavLink>
+              <svg cIcon class="me-2" name="cilMedicalCross"></svg>
+              <strong style="color: rgb(78, 76, 76);">Add Event</strong>
+            </a>
+          </c-nav-item>
+        </c-nav>
+      </c-card-header>
+      <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="1" cRounded="bottom">
+        <!-- tab1 Content -->
+        <c-tab-pane class="p-3 preview" role="tabpanel">
+          <form [gutter]="3" cForm cRow ngNativeValidate>
+            <c-col [md]="4">
+              <div>
+                <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan
+                    No.</b>
+                </p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                  <input autoComplete="loanNo" cFormControl id="validationDefault05" type="text" name="loanNo"
+                    placeholder="Enter Loan No." />
+                </c-input-group>
+              </div>
+            </c-col>
+
+            <c-col [md]="4">
+              <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Bank</b>
+              </p>
+              <select cSelect name="bank">
+                <option value="">Select</option>
+                <option value="1">bank</option>
+              </select>
+            </c-col>
+            <c-col [md]="4">
+              <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Loan
+                  Status</b>
+              </p>
+              <select name="loanStatus" cSelect>
+                <option>Loan Status</option>
+                <option value="">All</option>
+                <option value="ACTIVE">Active</option>
+                <option value="CLOSED">Closed</option>
+              </select>
+            </c-col>
+            <c-col [md]="5"></c-col>
+
+            <c-col [md]="2">
+              <div>
+                <button type="reset" cButton color="warning"><b>Reset</b></button>
+                <button type="submit" cButton color="success">Search</button>
+              </div>
+            </c-col>
+            <c-col [md]="5"></c-col>
+          </form>
+        </c-tab-pane>
+
+        <!-- tab2 Content -->
+        <!-- <c-tab-pane class="p-3 preview" role="tabpanel">
+                  <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="addNewLoan()">
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan
+                            No.</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                          <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                          <input autoComplete="loanNo" cFormControl id="validationDefault05" type="text" name="loanNo"
+                            [(ngModel)]="addLoan.loanNo" placeholder="Enter Loan No." required />
+                        </c-input-group>
+                      </div>
+                    </c-col>
+      
+                    <c-col [md]="4">
+                      <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Bank</b>
+                      </p>
+                      <select cSelect name="bank" [(ngModel)]="addLoan.bank" required>
+                        <option value="">Select</option>
+                        <option *ngFor="let b of banks" [value]="b.id">{{b.bankName}}</option>
+                      </select>
+                    </c-col>
+                    <c-col [md]="4">
+                      <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Loan
+                          Type</b>
+                      </p>
+                      <select name="loanType" cSelect [(ngModel)]="addLoan.loanType" required>
+                        <option>Select Loan Type</option>
+                        <option *ngFor="let lt of loanTypes" [value]="lt.loantTypeId">{{lt.loanType}}</option>
+                      </select>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan
+                            Amount</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                          <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+                          <input autoComplete="loanAmount" cFormControl id="validationDefault05" type="text" name="loanAmount"
+                            [(ngModel)]="addLoan.loanAmount" placeholder="Enter Loan Amount" required />
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan
+                            Tenure (in months)</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                           <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span>
+                          <input autoComplete="totalEmi" cFormControl id="validationDefault05" type="text" name="totalEmi"
+                            [(ngModel)]="addLoan.totalEmi" placeholder="Enter Loan Tenure(in months)" required />
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>EMI/month</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                           <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+                          <input autoComplete="emiAmount" cFormControl id="validationDefault05" type="text" name="emiAmount"
+                            [(ngModel)]="addLoan.emiAmount" placeholder="Enter Loan EMI/month" required />
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Interest Type</b></p>
+                        <c-input-group class="mb-3">
+                          <select name="interestType" cSelect [(ngModel)]="addLoan.interestType" required>
+                            <option value="0">Choose interest type</option>
+                            <option value="FLEXIBLE">Flexible</option>
+                            <option value="FLOATER">Floater</option>
+                            <option value="FIXED">Fixed</option>
+                          </select>
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Intereset Rate</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                           <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+                          <input autoComplete="interestRate" cFormControl id="validationDefault05" required type="text"
+                            name="interestRate" [(ngModel)]="addLoan.interestRate" placeholder="Enter Loan Interest Rate" />
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Loan Status</b></p>
+                        <c-input-group class="mb-3">
+                          <select disabled name="interestType" cSelect>
+                            <option value="0">Select</option>
+                            <option value="ACTIVE" selected>Active</option>
+                            <option value="CLOSED">Closed</option>
+                          </select>
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Disbursal Date</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                          <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+                          <mat-form-field appearance="fill">
+                            <mat-label>Disbursal Date</mat-label>
+                            <input name="disbursalDate" [(ngModel)]="date1" matInput [matDatepicker]="disdate"
+                              (dateInput)="addEvent1('input', $event)" (dateChange)="addEvent1('change', $event)">
+                            <mat-datepicker-toggle matSuffix [for]="disdate"></mat-datepicker-toggle>
+                            <mat-datepicker #disdate>
+                            </mat-datepicker>
+                          </mat-form-field>
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>First EMI Date</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                           <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+                          <mat-form-field appearance="fill">
+                            <mat-label>First EMI date</mat-label>
+                            <input name="firstEmiDate" required [(ngModel)]="date2" matInput [matDatepicker]="firstemidt"
+                              (dateInput)="addEvent2('input', $event)" (dateChange)="addEvent2('change', $event)">
+                            <mat-datepicker-toggle matSuffix [for]="firstemidt"></mat-datepicker-toggle>
+                            <mat-datepicker #firstemidt>
+                            </mat-datepicker>
+                          </mat-form-field>
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="4">
+                      <div>
+                        <p class="text-medium-emphasis" cLabel for="validationDefault05"><b>Last EMI Date</b>
+                        </p>
+                        <c-input-group class="mb-3">
+                          <span cInputGroupText><svg cIcon name="cilCurrency"></svg></span> 
+      
+                          <mat-form-field appearance="fill">
+                            <mat-label>Last EMI date</mat-label>
+                            <input name="lastEmiDate" required [(ngModel)]="date3" matInput [matDatepicker]="lastemidt"
+                              (dateInput)="addEvent3('input', $event)" (dateChange)="addEvent3('change', $event)">
+                            <mat-datepicker-toggle matSuffix [for]="lastemidt"></mat-datepicker-toggle>
+                            <mat-datepicker #lastemidt>
+                            </mat-datepicker>
+                          </mat-form-field>
+                        </c-input-group>
+                      </div>
+                    </c-col>
+                    <c-col [md]="5"></c-col>
+                    <c-col [md]="2">
+                      <div>
+                        <button type="reset" cButton color="warning"><b>Clear</b></button>
+                        <button type="submit" cButton color="success">Submit</button>
+                      </div>
+                    </c-col>
+                    <c-col [md]="5"></c-col>
+      
+                  </form>
+                </c-tab-pane> -->
+        <!-- tab3 Content -->
+        <!-- <c-tab-pane class="p-3 preview" role="tabpanel">
+                  <form cForm cRow ngNativeValidate>
+                    <c-col [md]="7">
+                      <c-col xs="12" lg="12">
+                        <c-card class="mb-4">
+                          <c-card-header>
+                            Bar Chart
+                          </c-card-header>
+                          <c-card-body>
+                            <c-chart type="bar" [data]="chartBarData"></c-chart>
+                          </c-card-body>
+                        </c-card>
+                      </c-col>
+                    </c-col>
+                    <c-col [md]="5">
+                      <div>
+                        <c-col xs="12" lg="9">
+                          <c-card class="mb-12">
+                            <c-card-header>
+                              Doughnut Chart
+                            </c-card-header>
+                            <c-card-body>
+                              <c-chart type="doughnut" [data]="chartDoughnutData"></c-chart>
+                            </c-card-body>
+                          </c-card>
+                        </c-col>
+                      </div>
+                    </c-col>
+                  </form>
+                </c-tab-pane> -->
+      </c-tab-content>
+
+
+    </c-card>
+
+  </c-col>
+  <!-- {{events | json}} -->
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header class="text-left"><b>{{events.length}} records found</b></c-card-header>
+
+      <c-card-body>
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="light">
+            <tr>
+              <th>S.No</th>
+              <th>Module</th>
+              <th>Events</th>
+              <th>Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let loan of events; index as i">
+              <td >{{i+1}}</td>
+
+              <td>
+                <strong>{{ loan.module }}</strong>
+              </td>
+              <td >
+                {{ loan.eventType }}
+              </td>
+
+             
+              <td>
+                <div *ngIf="loan.status=='ACTIVE'">
+                  <c-badge class="me-1" color="warning"><svg cIcon name="cilClock"></svg></c-badge>
+                </div>
+                <div *ngIf="loan.status=='CLOSED'">
+                  <c-badge class="me-1" color="success"><svg cIcon name="cilCheckCircle"></svg></c-badge>
+                </div>
+              </td>
+              <td class="text-center">
+                <c-badge class="me-1" [routerLink]="'/alert/events/'+loan.eventId" color="primary"><svg cIcon
+                    name="cilFolderOpen"></svg></c-badge>
+                <c-badge class="me-1" color="success"><svg cIcon name="cilPencil"></svg></c-badge>
+                <c-badge type="submit" class="me-1" color="danger"><svg
+                    cIcon name="cilTrash"></svg></c-badge>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>

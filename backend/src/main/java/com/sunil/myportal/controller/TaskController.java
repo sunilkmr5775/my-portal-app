@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,8 @@ public class TaskController {
 	public List<TaskMaster> getJobRecordsByFiter(
 			@RequestParam(value = "taskTitle", required = false) String taskTitle
 			,@RequestParam(value = "taskStatus", required = false) String taskStatus
+			,@RequestParam(value = "taskYear", required = false) String taskYear
+			,@RequestParam(value = "taskMonth", required = false) String taskMonth
 			){
 //		if(taskTitle.equalsIgnoreCase("All")	|| taskTitle==""||taskTitle.equals("")){
 		if(taskTitle==null || taskTitle=="" || taskTitle.isEmpty()){
@@ -71,7 +74,7 @@ public class TaskController {
 			taskStatus=null;
 		}
 
-		return new ArrayList<>(this.taskService.getTaskRecordsByFiter(taskTitle, taskStatus));
+		return new ArrayList<>(this.taskService.getTaskRecordsByFilter(taskTitle, taskStatus, taskYear,taskMonth));
 
 	}
 

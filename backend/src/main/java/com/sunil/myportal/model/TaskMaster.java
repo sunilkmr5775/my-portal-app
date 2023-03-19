@@ -51,7 +51,7 @@ public class TaskMaster {
 	private String createdBy;
 
 	@Column(name = "CREATED_DATE")
-	private LocalDateTime createdDate;
+	private LocalDate createdDate;
 
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;

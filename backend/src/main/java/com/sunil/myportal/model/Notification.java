@@ -23,9 +23,18 @@ public class Notification {
 	@Column(name = "ID")
 	private long id;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="EVENT_ID")
+	private EventMaster event;
 
 	@Column(name = "USER_TO_NOTIFY")
 	private String userToNotify;
+
+	@Column(name = "CRON_EXPRESSION")
+	private String cronExpression;
+
+	@Column(name = "STATUS")
+	private String status;
 
 	@Column(name = "IS_DELETED")
 	private boolean isDeleted;
@@ -42,8 +51,6 @@ public class Notification {
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modifiedDate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="EVENT_ID")
-	private Notification notification;
+
 
 }

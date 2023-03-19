@@ -70,7 +70,7 @@ export class LoansComponent implements OnInit {
     // this.date1 = null;
     // this.date2 = null;
     // this.date3 = null;
-    this.fetchLoanDetails();
+    // this.fetchLoanDetails();
     this.fetchBankList();
     this.fetchAllLoanTypes();
     this.fetchAllActiveLoans();
@@ -91,12 +91,6 @@ export class LoansComponent implements OnInit {
     this.date3 = moment(event.value);
     this.addLoan.lastEmiDate = this.date3.format('YYYY-MM-DD');
   }
-
-
-  // loanNumber = ["LPMDB00044944008-ICICI Bank", "23469789-SBI", "PHR063604725475-Axis", "HDFCLAP0120804857-HDFC"];
-
- 
-
 
   // Method area
   fetchLoanDetails() {
@@ -164,7 +158,7 @@ export class LoansComponent implements OnInit {
     // alert("fetchAllActiveLoans");
     this._loan.getAllActiveLoans().subscribe(
       (data: any) => {
-        this.activeLoans = data;
+        this.loans = data;
         this.activeLoanNoLabelArray.push(this.activeLoans.loanNo);
         for (let activeLoan of this.activeLoans) {
           this.activeLoanLabelArray.push(activeLoan.loanNo);

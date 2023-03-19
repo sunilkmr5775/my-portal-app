@@ -1,5 +1,6 @@
 package com.sunil.myportal.repository;
 
+import com.sunil.myportal.model.EventMaster;
 import com.sunil.myportal.model.Notification;
 import com.sunil.myportal.model.TaskMaster;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
+//    EventMaster findByEventId(long eventId);
 
 /*//	@Query(value = "SELECT * FROM BANK_MASTER ORDER BY BANK_NAME", nativeQuery = true)
 	public Set<TaskMaster> findAllByOrderByPlannedStartDateAsc();

@@ -18,6 +18,8 @@ public interface ExceptionConstant {
 	public static final String SUCCESS_EC = "200";
 	public static final String SUCCESS_ED = "SUCCESS";
 
+	public static final String FAILURE_ED = "FAILURE";
+
 	public static final String UNKNOWN_ERROR_EC = "UE102";
 	public static final String UNKNOWN_ERROR_ED = "Unknown Exception";
 
@@ -47,6 +49,9 @@ public interface ExceptionConstant {
 
 	public static final String EMAIL_NOT_SENT_EC = "EMAIL212";
 	public static final String EMAIL_NOT_SENT_ED = "Email not sent !";
+
+	public static final String EMAIL_SENT_EC = "EMAIL211";
+	public static final String EMAIL_SENT_ED = "Email sent successfully !";
 
 	public static final String EMAIL_NOT_REG_EC = "EMAIL213";
 	public static final String EMAIL_NOT_REG_ED = "Email Not Registered";
