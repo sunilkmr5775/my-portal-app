@@ -266,7 +266,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 				imageResponse.setFilePath(profilePicModel.get().getFileInPath());
 				imageResponse.setPicByte(FileUtil.decompressBytes(profilePicModel.get().getPicByte()));
 			} catch (Exception ex) {
-				throw new NoDataFoundException(ex.getMessage());
+				throw new NoDataFoundException(ex.getMessage(), new Throwable().getCause());
 			}
 		} else {
 			imageResponse.setStatus(StatusConstant.STATUS_FAILURE);

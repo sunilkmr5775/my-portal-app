@@ -7,7 +7,7 @@ import { ButtonsComponent } from './buttons/buttons.component';
 import { ButtonGroupsComponent } from './button-groups/button-groups.component';
 import { DropdownsComponent } from './dropdowns/dropdowns.component';
 
-import { ButtonsRoutingModule } from './buttons-routing.module';
+import { AlertRoutingModule } from './alert-routing.module';
 
 import {
   ButtonGroupModule,
@@ -20,20 +20,42 @@ import {
   NavbarModule,
   NavModule,
   SharedModule,
-  UtilitiesModule
+  TabsModule,
+  UtilitiesModule,
+  AccordionModule,
+  AvatarModule,
+  BadgeModule,
+  BreadcrumbModule,
+  CalloutModule,
+  CarouselModule,
+  FooterModule,
+  HeaderModule,
+  ListGroupModule,
+  PaginationModule,
+  PlaceholderModule,
+  PopoverModule,
+  ProgressModule,
+  SidebarModule,
+  SpinnerModule,
+  TableModule,
+  TooltipModule,
 } from '@coreui/angular';
 
+// CoreUI Modules
+
 import { IconModule } from '@coreui/icons-angular';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
     ButtonsComponent,
     ButtonGroupsComponent,
     DropdownsComponent,
+    EventsComponent,
   ],
   imports: [
     CommonModule,
-    ButtonsRoutingModule,
+    AlertRoutingModule,
     ButtonModule,
     ButtonGroupModule,
     GridModule,
@@ -48,8 +70,26 @@ import { IconModule } from '@coreui/icons-angular';
     NavbarModule,
     CollapseModule,
     NavModule,
-    NavbarModule
+    NavbarModule,
+    TabsModule,
+    AccordionModule,
+    AvatarModule,
+    BadgeModule,
+    BreadcrumbModule,
+    CalloutModule,
+    CarouselModule,
+    FooterModule,
+    HeaderModule,
+    ListGroupModule,
+    PaginationModule,
+    PlaceholderModule,
+    PopoverModule,
+    ProgressModule,
+    SidebarModule,
+    SpinnerModule,
+    TableModule,
+    TooltipModule,
   ]
 })
-export class ButtonsModule {
+export class AlertModule {
 }

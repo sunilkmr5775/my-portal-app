@@ -96,13 +96,21 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Schedulers',
-    url: '/theme/colors',
-    iconComponent: { name: 'cil-notes' },
+    name: 'Alert',
+    url: '/alert',
+    iconComponent: { name: 'cil-bell' },
     children:[
       {
-        name: 'Configure Scheduler',
-        url: '/base/loans'
+        name: 'Events',
+        url: '/alert/events'
+      },
+      {
+        name: 'Notifications',
+        url: '/alert/notifications'
+      },
+      {
+        name: 'Schedulers',
+        url: '/alert/schedulers'
       },
     ]
   },
@@ -187,21 +195,33 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Buttons',
-    url: '/buttons',
-    iconComponent: { name: 'cil-cursor' },
+    name: 'Alert',
+    url: '/alert',
+    iconComponent: { name: 'cil-bell' },
     children: [
       {
+        name: 'Events',
+        url: '/alert/events'
+      },
+      {
+        name: 'Notifications',
+        url: '/alert/notifications'
+      },      
+      {
+        name: 'Schedulers',
+        url: '/alert/schedulers'
+      },
+      {
         name: 'Buttons',
-        url: '/buttons/buttons'
+        url: '/alert/buttons'
       },
       {
         name: 'Button groups',
-        url: '/buttons/button-groups'
+        url: '/alert/button-groups'
       },
       {
         name: 'Dropdowns',
-        url: '/buttons/dropdowns'
+        url: '/alert/dropdowns'
       },
     ]
   },

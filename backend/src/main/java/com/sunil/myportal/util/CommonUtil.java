@@ -7,19 +7,21 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-
+import net.bytebuddy.utility.RandomString;
 import org.apache.tomcat.util.codec.binary.Base64;
 //import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class CommonUtil {
 
@@ -29,9 +31,7 @@ public class CommonUtil {
 	@Autowired
 	Environment environment;
 
-	public void getCurrentDate() {
 
-	}
 
 	public static boolean isStringNotNullandEmpty(String s) {
 		return (s != null && !"".equalsIgnoreCase(s.trim()));
@@ -140,14 +140,20 @@ public class CommonUtil {
 	}
 
 	public static LocalDateTime getCurrentDateTime() {
-		LocalDateTime formattedDateTime = LocalDateTime.now();
-		return formattedDateTime;
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		return currentDateTime;
+	}
+
+	public static LocalDate getCurrentDate() {
+		LocalDate currentDate = LocalDate.now();
+		return currentDate;
+	}
+	public static Month getCurrentMonth() {
+		LocalDate currentDate = LocalDate.now();
+		return currentDate.getMonth();
 	}
 
 	public static long findTimeDifference(LocalDateTime otpTimeStamp, LocalDateTime otpValidity) {
-
-
-
 		LocalDateTime now = LocalDateTime.now();
 //		LocalDateTime sixMinutesBehind = now.minusMinutes(6);
 		Duration duration = Duration.between(otpValidity, now);
@@ -157,6 +163,15 @@ public class CommonUtil {
 		System.out.println("diff in secs==> "+seconds);
 		return seconds;
 	
+	}
+	public static Long findDateDifferenceWithCurrentDate(LocalDate taskPlannedEndDate) {
+		LocalDate currentDate = LocalDate.now();
+		/*Days d = Days.daysBetween(currentDate, dateToCompare).getDays();
+		Days d = Days.daysBetween(startDate, endDate).getDays();
+		Duration duration = Duration.between(dateToCompare, LocalDate.now());
+		long diff = Math.abs(duration.toDays());*/
+		long daysBetween = DAYS.between(currentDate, taskPlannedEndDate);
+		return daysBetween;
 	}
 	
 	public static long findOtpTimeDifference(LocalDateTime otpTimeStamp, LocalDateTime otpValidity) {
@@ -232,7 +247,7 @@ public class CommonUtil {
 	}
 
 	public static LocalDate convertStringToLocalDate(String date){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MM-yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.parse(date, formatter);
 		return localDate;
 	}
@@ -249,4 +264,39 @@ public class CommonUtil {
 		}
 		return policyTerm;
 	}
+
+	public static String generateUuid () {
+		UUID uuid = UUID.randomUUID();
+		String uuidAsString = uuid.toString();
+		System.out.println("Your UUID is: " + uuidAsString);
+		return uuidAsString;
+	}
+
+	public static String getSiteURL() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String siteURL = request.getRequestURL().toString();
+		return siteURL.replace(request.getServletPath(), "");
+	}
+
+	public static String generateRandomCode() {
+		return RandomString.make(64);
+	}
+
+	public static LocalDate getFirstDateOfTheMonth(LocalDate inputDate){
+		YearMonth month = YearMonth.from(inputDate);
+		return month.atDay(1);
+
+	}
+	public static LocalDate getLastDateOfTheMonth(LocalDate inputDate){
+		YearMonth month = YearMonth.from(inputDate);
+		return month.atEndOfMonth();
+	}
+
+	public static boolean checkIfCurrentDatIsBetweenTwoDates(){
+		LocalDate currentDate = LocalDate.now();
+		LocalDate start = LocalDate.of(currentDate.getYear() , currentDate.getMonth() , 1 ) ;
+//		LocalDate stop = LocalDate.of(currentDate.getYear() , currentDate.getMonth(), currentDate.range(start) ) ;
+		return true;
+	}
+
 }

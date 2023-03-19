@@ -14,6 +14,10 @@
         </button>
         <form [formGroup]="trafficRadioGroup">
           <c-button-group class="float-end me-3" role="group">
+              <select  class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="Day"></select>
             <input
               class="btn-check"
               formControlName="trafficRadio"

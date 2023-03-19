@@ -98,11 +98,11 @@
         </a>
       </li>
       <li>
-        <a routerLink="./" cDropdownItem>
+        <a routerLink="./general/task-master" cDropdownItem>
           <svg cIcon class="me-2" name="cilTask"></svg>
           Tasks
-          <c-badge class="ms-2 float-end" color="danger">
-            42
+          <c-badge class="ms-2 float-end" color="warning">
+           {{tasks.length}}
           </c-badge>
         </a>
       </li>

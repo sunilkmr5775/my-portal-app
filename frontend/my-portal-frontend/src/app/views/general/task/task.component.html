@@ -37,6 +37,7 @@
 
                 <c-tab-content #tabContent1="cTabContent" [activeTabPaneIdx]="1" cRounded="bottom">
                     <!-- tab1 Content -->
+                    <!-- {{filterTask | json}} -->
                     <c-tab-pane class="p-3 preview" role="tabpanel">
                         <form [gutter]="3" cForm cRow ngNativeValidate (ngSubmit)="searchTask()">
                             <c-col [md]="4">
@@ -50,15 +51,31 @@
                                     </c-input-group>
                                 </div>
                             </c-col>
-
-
                             <c-col [md]="4">
                                 <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Task Status</b>
                                 </p>
                                 <select name="taskStatus" [(ngModel)]="filterTask.taskStatus" cSelect>
-                                    <option value="All">All</option>
+                                    <option value="All" selected>All</option>
                                     <option value="PENDING">PENDING</option>
                                     <option value="COMPLETED">COMPLETED</option>
+                                </select>
+                            </c-col>
+                            <c-col [md]="1">
+                                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Year</b>
+                                </p>
+                                <select name="year" [(ngModel)]="filterTask.year" cSelect>
+                                    <option value="" disabled>Choose year</option>
+                                    <option *ngFor="let x of years;index as i"
+                                    [selected]="x === currentYear" [value]="x">{{x}}</option>
+                                </select>
+                            </c-col>
+                            <c-col [md]="2">
+                                <p class="text-medium-emphasis" cLabel for="validationDefault01"><b>Month</b>
+                                </p>
+                                <select name="month" [(ngModel)]="filterTask.month" cSelect>
+                                    <option *ngFor="let y of months;index as i"
+                                    [value]="y.no">{{y.name}}</option>
+                                 
                                 </select>
                             </c-col>
                             <c-col [md]="5"></c-col>

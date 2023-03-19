@@ -24,12 +24,18 @@ export class TaskComponent implements OnInit {
     private router: Router,
   ) { }
 
+  currentYear = new Date().getFullYear();
+  currentMonth = //new Date().getUTCMonth()+1;
+  ('0' + (new Date().getMonth()+1)).slice(-2);
+
   tasks: any = [];
   banks: any = [];
   activeTasks: any = [];
   public filterTask = {
     title: '',
     taskStatus: '',
+    year:this.currentYear,
+    month:this.currentMonth
     
   }
   snackBar: any;
@@ -57,13 +63,46 @@ export class TaskComponent implements OnInit {
   date1 = moment();
   date2 = moment();
   date3 = moment();
+  years: any;
+  
+  months = [
+    {"no":"01","name":"January"}, 
+    {"no":"02","name":"February"},
+    {"no":"03","name":"March"},
+    {"no":"04","name":"April"},
+    {"no":"05","name":"May"},
+    {"no":"06","name":"June"},
+    {"no":"07","name":"July"},
+    {"no":"08","name":"August"},
+    {"no":"09","name":"September"},
+    {"no":"10","name":"October"},
+    {"no":"11","name":"November"},
+    {"no":"12","name":"December"}
+  ];
 
   ngOnInit() {
     this.fetchAllTasks();
     // this.fetchAllActiveTasks();
+    this.getUploadPeriod();
+    //this.searchTask();
 
   }
 
+  getUploadPeriod() {
+    this.years = this.serviceGetUploadPeriod();
+    console.log(this.years);
+  }
+
+  public serviceGetUploadPeriod() {
+    let baseYear = new Date().getFullYear()-5;
+    let currYear = new Date().getFullYear();
+    let years = [];
+
+    for (var i = currYear; i > baseYear; i--) {
+      years.push(i);
+    }
+   return years;
+  }
 
   addEvent1(type: string, event: MatDatepickerInputEvent<Date>) {
     this.date1 = moment(event.value);
@@ -74,7 +113,10 @@ export class TaskComponent implements OnInit {
     this.date2 = moment(event.value);
     this.addTask.plannedEndDate = this.date2.format('YYYY-MM-DD');
   }
-
+  // currentDate:Date = new Date();
+  // currentDateTime = this.currentDate.getTime();
+  // date = this.currentDateTime - (90 * 24 * 60 * 60 * 1000);
+  // oldDate:Date = new Date(this.date);
 
   // Method area
   fetchAllTasks() {
@@ -97,7 +139,8 @@ export class TaskComponent implements OnInit {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('taskTitle', this.filterTask.title);
     queryParams = queryParams.append('taskStatus', this.filterTask.taskStatus);
-    // alert(queryParams);
+    queryParams = queryParams.append('taskYear', this.filterTask.year);
+    queryParams = queryParams.append('taskMonth', this.filterTask.month);
     this._task.filterTask(queryParams).subscribe(
       (response: any) => {
         this.tasks = response;
@@ -114,52 +157,19 @@ export class TaskComponent implements OnInit {
     );
   }
 
-  // fetchAllActiveTasks() {
-  //   // alert("fetchAllActiveLoans");
-  //   this._task.getAllActiveTasks().subscribe(
-  //     (data: any) => {
-  //       this.activeTasks = data;
-  //       this.activeLoanNoLabelArray.push(this.activeTasks.loanNo);
-  //       for (let activeTask of this.activeTasks) {
-  //         this.activeLoanLabelArray.push(activeTask.loanNo);
-  //         this.activeLoanDataArray.push(activeTask.emiRemaining);
-  //         this.activeLoanColorArray.push(activeTask.extAttr4);
-  //         this.activeLoanNoLabelArray.push(...activeTask.loanNo);
-  //      }
-    
-  //     // Bar Chart Data
-  //     this.chartBarData = {
-  //       labels:
-  //         [...this.activeLoanLabelArray].slice(0, this.activeTasks.length),
-  //         datasets: [
-  //           {
-  //             label: 'EMI Remaining',
-  //             backgroundColor: '#f87979',
-  //             data: this.activeLoanDataArray
-  //           }
-  //         ]
-  //     };
-
-  //     // Doughnut Chart Data
-  //     this.chartDoughnutData = {
-  //       labels: this.activeLoanLabelArray,
-  //       datasets: [
-  //         {
-  //           backgroundColor: this.activeLoanColorArray,
-  //           //['#41B883', '#E46651', '#00D8FF', '#DD1B16','#DD1B89'],
-  //           data: this.activeLoanDataArray
-  //         }
-  //       ]
-  //     };
-  //       console.log('ACTIVE TASK DETAILS:', this.activeTasks);
-  //     }, (error) => {
-  //       console.log('Error !', error);
-  //       this.snackBar.open("Some error occured while loading Active Task list", '', {
-  //         duration: 3000, verticalPosition: 'top',
-  //       });
-  //     }
-  //   );
-  // }
+  fetchAllActiveTasks() {
+    this._task.fetchAllActiveTasks().subscribe(
+      (data: any) => {
+        this.tasks = data;
+        console.log('LOAN DETAILS:', this.tasks);
+      }, (error) => {
+        console.log('Error !' + error);
+        this.snackBar.open("Some error occured while loading categories", '', {
+          duration: 3000, verticalPosition: 'top',
+        });
+      }
+    );
+  }
 
   public addNewTask() {
     // All done
@@ -171,6 +181,7 @@ export class TaskComponent implements OnInit {
         Swal.fire('Success !!!', 'Title ' + this.addTask.title + ' added successfully.', 'success');
         // this.resetFields();
         this.fetchAllTasks();
+        // this.fetchAllActiveTasks();
         this.router.navigate(['/general/task-master']);
       }, (error) => {
         console.log('Error in add-loan', error);
@@ -250,4 +261,7 @@ export class TaskComponent implements OnInit {
       }
     })
   }
+
 }
+
+

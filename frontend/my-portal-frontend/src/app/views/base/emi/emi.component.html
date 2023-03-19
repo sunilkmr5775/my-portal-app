@@ -215,14 +215,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let e of emis">
-                                <td>{{e.noOfPayment}}</td>
-                                <td>{{e.emiDate}}</td>
-                                <td class="text-left">{{e.emiAmount}}</td>
-                                <td>
-                                    <!-- {{e.status}} -->
-                                    <c-badge class="me-1" color="success"><svg cIcon
-                                        name="cilCheckCircle"></svg></c-badge>
+                            <tr *ngFor="let e of emis" style="padding-bottom: 10px;">
+                                <td *ngIf="e.status=='UNPAID'; else elseBlock" class="bolded">{{e.noOfPayment}}</td>
+                                <ng-template #elseBlock><td>{{e.noOfPayment}}</td></ng-template>
+                                <td *ngIf="e.status=='UNPAID'; else elseBlock1" class="bolded">{{e.emiDate}}</td>
+                                <ng-template #elseBlock1><td>{{e.emiDate}}</td></ng-template>
+                                <td class="text-left" *ngIf="e.status=='UNPAID'; else elseBlock2" class="bolded">{{e.emiAmount}}</td>
+                                <ng-template #elseBlock2><td>{{e.emiAmount}}</td></ng-template>
+                                 <td>
+                                    <div *ngIf="e.status=='UNPAID'">
+                                        <c-badge class="me-1" color="warning"><svg cIcon name="cilClock"></svg>&nbsp;{{e.status}}</c-badge>
+                                      </div>
+                                      <div *ngIf="e.status=='PAID'">
+                                        <c-badge class="me-1" color="success"><svg cIcon name="cilCheckCircle"></svg> {{e.status}}</c-badge>
+                                      </div>
                                 </td>
                         <!--        <td>
                                      <button (click)="openModalDialog(e.eId)">

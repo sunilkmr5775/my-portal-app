@@ -4,19 +4,26 @@ import { RouterModule, Routes } from '@angular/router';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { ButtonGroupsComponent } from './button-groups/button-groups.component';
 import { DropdownsComponent } from './dropdowns/dropdowns.component';
+import { EventsComponent } from './events/events.component';
 
 const routes: Routes = [
   {
     path: '',
     data: {
-      // title: 'Buttons'
-      title: 'General'
+      title: 'Alert'
     },
     children: [
+      // {
+      //   path: '',
+      //   pathMatch: 'full',
+      //   redirectTo: 'buttons'
+      // },
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'buttons'
+        path: 'events',
+        component: EventsComponent,
+        data: {
+          title: 'Events'
+        }
       },
       {
         path: 'buttons',
@@ -48,5 +55,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ButtonsRoutingModule {
+export class AlertRoutingModule {
 }
