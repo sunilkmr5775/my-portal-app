@@ -132,7 +132,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskMaster> getAllActiveTasks() {
-        return new ArrayList<>(taskRepository.findAllByTaskStatus(StatusConstant.STATUS_PENDING));
+        return new ArrayList<>(taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING,
+                false));
     }
 
 
@@ -161,6 +162,7 @@ public class TaskServiceImpl implements TaskService {
             if (task != null) {
                 //task.setTaskStatus(StatusConstant.STATUS_DELETED);
                 task.setDeleted(true);
+                task.setTaskStatus(StatusConstant.STATUS_DELETED);
                 task.setModifiedBy("sunilkmr5775");
                 task.setModifiedDate(LocalDateTime.now());
                 this.taskRepository.save(task);
@@ -207,13 +209,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskMaster> getTaskRecordsByFilter(String taskTitle, String taskStatus, String taskYear, String taskMonth) {
-        String inputTaskDate=taskYear+"-"+taskMonth+"-01";
+        String inputTaskDate = taskYear + "-" + taskMonth + "-01";
         LocalDate taskFirstDate = CommonUtil.getFirstDateOfTheMonth(CommonUtil.convertStringToLocalDate(inputTaskDate));
         LocalDate taskLastDate = CommonUtil.getLastDateOfTheMonth(CommonUtil.convertStringToLocalDate(inputTaskDate));
 
         List<TaskMaster> jobList = this.taskRepository.findTaskMasterDetailsByTitleAndTaskStatusAndByCreatedDate(taskTitle, taskStatus,
                 taskFirstDate, taskLastDate);
-        return jobList;
+        return jobList.stream().filter(task -> task.isDeleted() == false).collect(Collectors.toList());
     }
 
 }
