@@ -39,5 +39,5 @@ public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
 														@Param("taskStartDate") LocalDate taskStartDate,
 														@Param("taskEndDate") LocalDate taskEndDate);
 
-	List<TaskMaster> findAllByTaskStatus(String statusPending);
+	List<TaskMaster> findAllByTaskStatusAndIsDeleted(String statusPending, boolean isDeleted);
 }

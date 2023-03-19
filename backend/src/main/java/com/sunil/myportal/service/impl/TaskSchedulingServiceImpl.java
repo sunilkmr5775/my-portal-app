@@ -63,7 +63,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         String jobId = CommonUtil.generateUuid();
         System.out.println("Scheduling task with job id: " + jobId + " and cron expression: " + cronExpression);
 
-        List<TaskMaster> pendingTaskList = this.taskRepository.findAllByTaskStatus(StatusConstant.STATUS_PENDING);
+        List<TaskMaster> pendingTaskList = this.taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING,false);
         for (TaskMaster pendingTask : pendingTaskList) {
             TaskDefinition taskDefinition = new TaskDefinition();
             taskDefinition.setData(pendingTask.getDescription());
@@ -92,7 +92,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         String content;
         String subject;
         String receiverEmail = "sunilkmr5775@gmail.com";
-        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatus(StatusConstant.STATUS_PENDING);
+        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING, false);
         for (TaskMaster pendingTask : pendingTaskList) {
             subject = pendingTask.getTitle();
             Long diff = CommonUtil.findDateDifferenceWithCurrentDate(pendingTask.getPlannedEndDate());
