@@ -17,6 +17,7 @@ public class TaskRequest {
 
 	private static final long serialVersionUID = 1L;
 
+	private long id;
 	private String title;
 	private String description;
 	private LocalDate plannedStartDate;
@@ -25,5 +26,6 @@ public class TaskRequest {
 	private LocalDate actualEndDate;
 	private String taskStatus;
 	private String priority;
+	private boolean reminderRequired;
 
 }

@@ -7,9 +7,8 @@ import baseUrl  from '../../../helper';
   providedIn: 'root'
 })
 export class TaskService {
-  
+    
   constructor(private _http: HttpClient) { }
-
   
   public filterTask(queryParams: HttpParams) {
     return this._http.get<any>(`${baseUrl}/tasks/filterTask/`, { params: queryParams });
@@ -29,6 +28,11 @@ export class TaskService {
     return this._http.post(`${baseUrl}/tasks/`, addLoan);
   }
 
+   // update loan
+   public updateTask(updateLoan: any) {
+    return this._http.put(`${baseUrl}/tasks/update`, updateLoan);
+  }
+
   // delete task
   public deleteTask(taskId: string): Observable<any> {
     return this._http.put(`${baseUrl}/tasks/delete/${taskId}`, { responseType: 'text' });
@@ -44,8 +48,15 @@ export class TaskService {
     return this._http.put(`${baseUrl}/tasks/undone/${taskId}`, { responseType: 'text' });
   }
 
-public fetchAllActiveTasks() {
+  public fetchAllActiveTasks() {
     return this._http.get(`${baseUrl}/tasks/pending-task/`);
+  }
+
+  public rollOverTask(rollOverTaskArray: any): Observable<any> {
+    // let params = new HttpParams();
+    // params.append("taskList", JSON.stringify(rollOverTaskArray));
+        // return this._http.put(`${baseUrl}/tasks/rollover-task`,  { rollOverTaskArray });
+        return this._http.put(`${baseUrl}/tasks/rollover-task`, rollOverTaskArray);
   }
 
 }

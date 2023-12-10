@@ -1,11 +1,13 @@
 package com.sunil.myportal.exception;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 //import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
 
+import com.sunil.myportal.dto.ExceptionResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -62,6 +64,14 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 		log.error("JobNotFoundException");
 		ErrorMessages error = new ErrorMessages(ExceptionConstant.JOB_NOT_FOUND_EC, ex.getMessage(), "FAILURE");
 		return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(JobNotFoundException.class)
+	public ResponseEntity<Object> handleExceptions( JobNotFoundException exception, WebRequest webRequest) {
+		ExceptionResponse response = new ExceptionResponse();
+		response.setDateTime(LocalDateTime.now());
+		response.setMessage("Not found");
+		ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		return entity;
 	}
 
 //	@ExceptionHandler(FileUploadException.class)

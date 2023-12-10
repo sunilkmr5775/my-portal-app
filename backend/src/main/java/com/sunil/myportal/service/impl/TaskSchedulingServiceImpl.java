@@ -63,7 +63,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         String jobId = CommonUtil.generateUuid();
         System.out.println("Scheduling task with job id: " + jobId + " and cron expression: " + cronExpression);
 
-        List<TaskMaster> pendingTaskList = this.taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING,false);
+        List<TaskMaster> pendingTaskList = this.taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING, false);
         for (TaskMaster pendingTask : pendingTaskList) {
             TaskDefinition taskDefinition = new TaskDefinition();
             taskDefinition.setData(pendingTask.getDescription());
@@ -88,20 +88,32 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
 
     @Override
     public BaseResponse sendTaskNotification() {
+        LocalDate taskFirstDate = CommonUtil.getFirstDateOfTheMonth(LocalDate.now());
+        LocalDate taskLastDate = CommonUtil.getLastDateOfTheMonth(LocalDate.now());
+        List<TaskMaster> pendingTaskList = new ArrayList<>(taskRepository.
+                findAllByIsDeletedAndByPlannedEndDate(false, taskFirstDate, taskLastDate));
+
         BaseResponse response = new BaseResponse();
         String content;
         String subject;
         String receiverEmail = "sunilkmr5775@gmail.com";
-        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING, false);
-        for (TaskMaster pendingTask : pendingTaskList) {
-            subject = pendingTask.getTitle();
-            Long diff = CommonUtil.findDateDifferenceWithCurrentDate(pendingTask.getPlannedEndDate());
-            if (diff < 0) {
-                content = ConstantVariables.TASK_NOTIFICATION_CONTENT;
-                content = content.replace("[[name]]", pendingTask.getCreatedBy());
-                content = content.replace("[[task]]", pendingTask.getTitle());
-                content = content.replace("[[plannedEndDate]]", pendingTask.getPlannedEndDate().toString());
-                response = emailService.sendEmailNotification(content, subject, receiverEmail);
+//        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING, false);
+        if(!pendingTaskList.isEmpty() || pendingTaskList.size() > 0){
+            for (TaskMaster pendingTask : pendingTaskList) {
+                subject = pendingTask.getTitle();
+                Long diff = CommonUtil.findDateDifferenceWithCurrentDate(pendingTask.getPlannedEndDate());
+                if (diff >= 0 && pendingTask.isReminderRequired()) {
+                    content = ConstantVariables.TASK_NOTIFICATION_CONTENT;
+                    content = content.replace("[[name]]", pendingTask.getCreatedBy());
+                    content = content.replace("[[task]]", pendingTask.getTitle());
+                    content = content.replace("[[plannedEndDate]]", pendingTask.getPlannedEndDate().toString());
+                    boolean currentDayReminderSent = false;
+                    currentDayReminderSent = pendingTask.getIsCurrentDayReminderSent() == null ? false : pendingTask.getIsCurrentDayReminderSent();
+                    if(!currentDayReminderSent) {
+                        response = emailService.sendEmailNotification(content, subject, receiverEmail);
+                    }
+                    updateTaskReminderCounter(pendingTask);
+                }
             }
         }
         return response;
@@ -174,14 +186,49 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         return response;
     }
 
+    @Override
+    public void resetTaskNotification() {
+        try {
+            List<TaskMaster> taskList = taskRepository.findAllByIsCurrentDayReminderSent(true);
+            for (TaskMaster task : taskList) {
+                if (task.getIsCurrentDayReminderSent() == true)
+                    task.setIsCurrentDayReminderSent(false);
+            }
+        } catch (Exception e) {
+            System.out.println("Inside resetTaskNotification() in TaskSchedulingServiceImpl: " + e.getMessage());
+        }
+    }
+
+    public boolean updateTaskReminderCounter(TaskMaster taskMaster) {
+        Long taskId = 0L;
+        boolean flag = false;
+        if (taskMaster.getTotalReminder() == taskMaster.getReminderSent()) {
+            taskMaster.setReminderRequired(false);
+        } else {
+//          taskMaster.setTotalReminder(taskMaster.getTotalReminder() - 1);
+            taskMaster.setReminderSent(taskMaster.getReminderSent() == 0 ? 1 : taskMaster.getReminderSent() + 1);
+            taskMaster.setReminderPending(taskMaster.getReminderPending() - 1);
+            taskMaster.setModifiedBy("sunilkmr5775");
+            taskMaster.setModifiedDate(LocalDateTime.now());
+            taskMaster.setIsCurrentDayReminderSent(true);
+        }
+        taskId = taskRepository.save(taskMaster).getId();
+        flag = taskId > 0 ? true : false;
+
+        return flag;
+    }
+
     public boolean updateLoanCounter(Loan loanDetails) {
         Long loanId = 0L;
         boolean flag = false;
         loanDetails.setEmiPaid(loanDetails.getEmiPaid() + 1);
         loanDetails.setEmiRemaining(loanDetails.getTotalEmi() - loanDetails.getEmiPaid());
+//			loanDetails.setEmiAmount(emi.getEmiAmount());
+//			loanDetails.setInterestPaid(loanDetails.getInterestPaid() == null ? new BigDecimal("0.00") : loanDetails.getInterestPaid().add(emi));
         loanDetails.setModifiedBy("sunilkmr5775");
         loanDetails.setModifiedDate(LocalDateTime.now());
         loanId = loanRepository.save(loanDetails).getLoanId();
+
         flag = loanId > 0 ? true : false;
 
         return flag;

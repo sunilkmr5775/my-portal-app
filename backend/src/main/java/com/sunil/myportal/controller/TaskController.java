@@ -1,21 +1,17 @@
 package com.sunil.myportal.controller;
 
-import com.sunil.myportal.dto.JobRequest;
-import com.sunil.myportal.dto.JobResponse;
 import com.sunil.myportal.dto.TaskRequest;
 import com.sunil.myportal.dto.TaskResponse;
-import com.sunil.myportal.model.JobMaster;
 import com.sunil.myportal.model.TaskMaster;
-import com.sunil.myportal.service.JobMasterService;
 import com.sunil.myportal.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +24,22 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
+	public TaskController(TaskService taskService) {
+		this.taskService = taskService;
+	}
+
 	@PostMapping("/")
 	public TaskResponse addNewTask(@Validated @RequestBody TaskRequest taskRequest)
 			throws UnsupportedOperationException, URISyntaxException, IOException {
-
 		return taskService.addNewTask(taskRequest);
-
 	}
+
+	@PutMapping("/update")
+	public TaskResponse updateTask(@Validated @RequestBody TaskRequest taskRequest)
+			throws UnsupportedOperationException, URISyntaxException, IOException {
+			return taskService.updateTask(taskRequest);
+	}
+
 //	 GET ALL Tasks
 	@GetMapping("/")
 	public List<TaskMaster> getAllTasks() {
@@ -46,7 +51,6 @@ public class TaskController {
 	@GetMapping("/pending-task")
 	public List<TaskMaster> getAllActiveTasks() {
 		return new ArrayList<>(this.taskService.getAllActiveTasks());
-
 	}
 
 //	 GET Task BY ID
@@ -55,7 +59,6 @@ public class TaskController {
 		return this.taskService.getTaskById(taskId);
 
 	}
-
 
 	//	 GET Job BY JOB NAME Or STATUS
 	//	 GET LOAN BY ID
@@ -102,4 +105,11 @@ public class TaskController {
 		return this.taskService.sortByTaskTitle(direction);
 	}
 
+	@PutMapping("/rollover-task")
+	public ResponseEntity<?> rollOverTask(
+			@RequestBody List<Long> rollOverTaskList
+	) {
+		this.taskService.rollOverTask(rollOverTaskList);
+		return ResponseEntity.ok().build();
+	}
 }

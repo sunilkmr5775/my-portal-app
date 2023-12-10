@@ -30,10 +30,10 @@ public class FileController {
 //	@ApiOperation(value = "Upload File", notes = "")
 	@PostMapping(ConstantURL.File_Upload_URL)
 	public FileResponse UploadPorfilePicture(
-			@RequestParam(value = "username", required=true) String username,
-			@RequestParam(value = "jobName",  required=true) String jobName,
-			@RequestParam(value = "file" ,    required=true) MultipartFile file
-			)
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "jobName", required = true) String jobName,
+			@RequestParam(value = "file", required = true) MultipartFile file
+	)
 			throws FileUploadException, UnsupportedOperationException, URISyntaxException, IOException {
 
 		FileRequest fileRequest = new FileRequest();

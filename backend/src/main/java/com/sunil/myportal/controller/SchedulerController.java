@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/tasks")
 @CrossOrigin("*")
 @EnableScheduling
-public class ScheduledTasksController {
+public class SchedulerController {
 
     @Autowired
     private TaskSchedulingService taskSchedulingService;
@@ -37,14 +37,23 @@ public class ScheduledTasksController {
         taskSchedulingService.removeScheduledTask(jobid);
     }
 
-    //    @Scheduled(cron = "0 0 * * * *")  // trigger job every day at 12:00 AM
+//    @Scheduled(cron = "0/12 0 * * * *")  // trigger every 12 hours
+    @Scheduled(cron = "0 0/2 * * * ?")  // trigger job every 2 mins
     public BaseResponse sendTaskNotification() {
         return this.taskSchedulingService.sendTaskNotification();
     }
 
-    @Scheduled(cron = "* * * * * *")  // trigger job every day at 12:00 AM
-    @GetMapping(path = "/schedule")
+//    @Scheduled(cron = "0 0 * * * *")  // trigger job every day at 12:00 AM
+    @Scheduled(cron = "0 0/2 * * * ?")  // trigger job every 2 mins
+//    @GetMapping(path = "/schedule")
     public BaseResponse sendEmiPaidNotification() {
         return this.taskSchedulingService.updateEmiAndSendEmiPaidNotification();
     }
+
+    @Scheduled(cron = "0 0 * * * *")  // trigger job every day at 12:00 AM
+//  @GetMapping(path = "/schedule")
+    public void resetTaskNotification() {
+        this.taskSchedulingService.resetTaskNotification();
+    }
+
 }

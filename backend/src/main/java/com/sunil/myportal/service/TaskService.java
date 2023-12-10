@@ -5,28 +5,31 @@ import com.sunil.myportal.dto.TaskResponse;
 import com.sunil.myportal.model.TaskMaster;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public interface TaskService {
 
-	public List<TaskMaster> getAllTasks();
+    public List<TaskMaster> getAllTasks();
 
-	public TaskResponse deleteTask(Long taskId);
+    public TaskResponse deleteTask(Long taskId);
 
-	public TaskMaster getTaskById(Long taskId);
+    public TaskMaster getTaskById(Long taskId);
 
-	public List<TaskMaster> sortByTaskTitle(String direction);
+    public List<TaskMaster> sortByTaskTitle(String direction);
 
 
-	TaskResponse addNewTask(TaskRequest taskRequest);
+    TaskResponse addNewTask(TaskRequest taskRequest);
 
-	TaskResponse markTaskAsCompleted(Long taskId);
+    TaskResponse updateTask(TaskRequest taskRequest);
 
-	TaskResponse markTaskAsUndone(Long taskId);
+    TaskResponse markTaskAsCompleted(Long taskId);
 
-	List<TaskMaster> getAllActiveTasks();
+    TaskResponse markTaskAsUndone(Long taskId);
 
-	List<TaskMaster> getTaskRecordsByFilter(String taskTitle, String taskStatus, String taskYear, String taskMonth);
+    List<TaskMaster> getAllActiveTasks();
+
+    List<TaskMaster> getTaskRecordsByFilter(String taskTitle, String taskStatus, String taskYear, String taskMonth);
+
+    TaskResponse rollOverTask(List<Long> rollOverTaskList);
 }

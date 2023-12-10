@@ -10,18 +10,18 @@ import com.sunil.myportal.model.Loan;
 
 @Service
 public interface EmiService {
-	
-	
-	public Emi addEmi(Emi emi);
-	
-	public Emi updateEmi(Emi emi);
-	
-	public Set<Emi> getEmis();
-	
-	public Emi getEmi(Long emiId);
-	
-	public void deleteEmi(Long emiId);
-	
-	public List<Emi> getEmiOfLoan(Loan loan);
-	
+
+
+    public Emi addEmi(Emi emi);
+
+    public Emi updateEmi(Emi emi);
+
+    public Set<Emi> getEmis();
+
+    public Emi getEmi(Long emiId);
+
+    public void deleteEmi(Long emiId);
+
+    public List<Emi> getEmiOfLoan(Loan loan);
+
 }
