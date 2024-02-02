@@ -14,4 +14,6 @@ public interface TaskSchedulingService {
     public BaseResponse sendTaskNotification();
 
     public BaseResponse updateEmiAndSendEmiPaidNotification();
+
+    public void resetTaskNotification();
 }

@@ -100,7 +100,7 @@ public class NotificationServiceImpl implements NotificationService {
         String content;
         String subject;
         String receiverEmail = "sunilkmr5775@gmail.com";
-        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatus(StatusConstant.STATUS_PENDING);
+        List<TaskMaster> pendingTaskList = taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING, false);
         for (TaskMaster pendingTask : pendingTaskList) {
             subject = pendingTask.getTitle();
             Long diff = CommonUtil.findDateDifferenceWithCurrentDate(pendingTask.getPlannedEndDate());

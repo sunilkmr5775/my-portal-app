@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.sunil.myportal.service.EmiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunil.myportal.constant.StatusConstant;
@@ -123,7 +124,7 @@ public class EmiServiceImpl implements EmiService {
     @Override
     public List<Emi> getEmiOfLoan(Loan loan) {
         // TODO Auto-generated method stub
-        return this.emiRepository.findByLoan(loan);
+        return this.emiRepository.findByLoan(loan, Sort.by(Sort.Direction.ASC, "emiDate"));
     }
 
 }

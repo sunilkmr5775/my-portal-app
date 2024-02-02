@@ -67,7 +67,7 @@ public class LoanServiceImpl implements LoanService {
 
 //			loan.setBankMaster(loanRequest.getBank());
             loan.setInterestRate(loanRequest.getInterestRate());
-            loan.setLoanStatus(loanRequest.isLoanStatus());
+            loan.setLoanStatus(true);
             loan.setTotalEmi(loanRequest.getTotalEmi());
             loan.setStatus(StatusConstant.STATUS_ACTIVE);
             loan.setCreatedBy("sunilkmr5775");
@@ -75,7 +75,8 @@ public class LoanServiceImpl implements LoanService {
             loan.setModifiedBy(null);
             loan.setModifiedDate(null);
 //            try {
-                loanId = loanRepository.save(loan).getLoanId();
+//                loanId = loanRepository.save(loan).getLoanId();
+                loanRepository.save(loan);
            /* } catch (SQLException exx) {
                 throw new InvalidDatabaseConnectionException("Invalid database credentials provided", new Throwable().getCause());
             }*/

@@ -29,6 +29,7 @@ export class TaskComponent implements OnInit {
   ('0' + (new Date().getMonth()+1)).slice(-2);
 
   tasks: any = [];
+  // updateTasks: any = [];
   banks: any = [];
   activeTasks: any = [];
   public filterTask = {
@@ -50,7 +51,20 @@ export class TaskComponent implements OnInit {
     actualStartDate: '',
     actualEndDate: '',
     priority:'',
-    loanStatus:'PENDING'
+    taskStatus:'PENDING',
+    isEmailReminder:true,
+  }
+  public updateTask = {
+    id:'',
+    title: '',
+    description: '',
+    plannedStartDate1: '',
+    plannedEndDate1: '',
+    actualStartDate: '',
+    actualEndDate: '',
+    priority:'',
+    taskStatus:'PENDING',
+    reminderRequired:true,
   }
 
   chartBarData: any;
@@ -62,9 +76,15 @@ export class TaskComponent implements OnInit {
   activeLoanColorArray: any = [];
   date1 = moment();
   date2 = moment();
-  date3 = moment();
+  updateDate1 = moment();
+  updateDate2 = moment();
   years: any;
-  
+  isTaskRollover: boolean = false;
+  // isEmailReminder: boolean = false;
+  public rollOverTask={
+    selectAll: false
+  }
+  showRolloverSubmitButton: any = false;
   months = [
     {"no":"01","name":"January"}, 
     {"no":"02","name":"February"},
@@ -84,7 +104,9 @@ export class TaskComponent implements OnInit {
     this.fetchAllTasks();
     // this.fetchAllActiveTasks();
     this.getUploadPeriod();
-    //this.searchTask();
+    this.searchTask();
+    // this.isTaskRollover=false;
+    // alert("current month: "+this.currentMonth);
 
   }
 
@@ -109,9 +131,16 @@ export class TaskComponent implements OnInit {
     this.addTask.plannedStartDate = this.date1.format('YYYY-MM-DD');
   }
   addEvent2(type: string, event: MatDatepickerInputEvent<Date>) {
-    // alert("addEvent2");
     this.date2 = moment(event.value);
     this.addTask.plannedEndDate = this.date2.format('YYYY-MM-DD');
+  }
+  updateEvent1(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.updateDate1 = moment(event.value);
+    this.updateTask.plannedStartDate1 = this.updateDate1.format('YYYY-MM-DD');
+  }
+  updateEvent2(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.updateDate2 = moment(event.value);
+    this.updateTask.plannedEndDate1 = this.updateDate2.format('YYYY-MM-DD');
   }
   // currentDate:Date = new Date();
   // currentDateTime = this.currentDate.getTime();
@@ -120,9 +149,12 @@ export class TaskComponent implements OnInit {
 
   // Method area
   fetchAllTasks() {
+    this.showRolloverSubmitButton = false;
+    this.isTaskRollover=false;
     this._task.getAllTasks().subscribe(
       (data: any) => {
         this.tasks = data;
+        
         console.log('LOAN DETAILS:', this.tasks);
       }, (error) => {
         console.log('Error !' + error);
@@ -133,9 +165,8 @@ export class TaskComponent implements OnInit {
     );
   }
 
-
- 
   searchTask() {
+    this.showRolloverSubmitButton = false;
     let queryParams = new HttpParams()
     queryParams = queryParams.append('taskTitle', this.filterTask.title);
     queryParams = queryParams.append('taskStatus', this.filterTask.taskStatus);
@@ -149,6 +180,7 @@ export class TaskComponent implements OnInit {
         // Swal.fire('Success !!!','Loan No. '+this.filterLoan.loanNo+' added successfully.','success');
         // this.resetFields();
         this.router.navigate(['/general/task-master']);
+        this.isTaskRollover=false;
 
       }, (error) => {
         console.log('Error in filtering tasks', error);
@@ -161,6 +193,7 @@ export class TaskComponent implements OnInit {
     this._task.fetchAllActiveTasks().subscribe(
       (data: any) => {
         this.tasks = data;
+        this.isTaskRollover=false;
         console.log('LOAN DETAILS:', this.tasks);
       }, (error) => {
         console.log('Error !' + error);
@@ -181,11 +214,38 @@ export class TaskComponent implements OnInit {
         Swal.fire('Success !!!', 'Title ' + this.addTask.title + ' added successfully.', 'success');
         // this.resetFields();
         this.fetchAllTasks();
+        this.isTaskRollover=false;
         // this.fetchAllActiveTasks();
         this.router.navigate(['/general/task-master']);
       }, (error) => {
         console.log('Error in add-loan', error);
         Swal.fire('Error!!!', 'Title ' + this.addTask.title + ' not added due to server error', 'error');
+      }
+    );
+  }
+
+  updateSingleTask(taskId:any){
+    for (let item of this.tasks) {
+      if(taskId==item.id){
+        this.updateTask = item;
+     }
+    }
+  }
+  updateExistingTask(){
+     this._task.updateTask(this.updateTask).subscribe(
+      (response: any) => {
+        this.updateTask = response;
+        console.log('Update Task response: ' + this.addTask);
+        //  this.successMsg = response.body.errorDescription
+        Swal.fire('Success !!!', 'Title ' + this.updateTask.title + ' updated successfully.', 'success');
+        // this.resetFields();
+        this.fetchAllTasks();
+        this.isTaskRollover=false;
+        // this.fetchAllActiveTasks();
+        this.router.navigate(['/general/task-master']);
+      }, (error) => {
+        console.log('Error in add-loan', error);
+        Swal.fire('Error!!!', 'Title ' + this.updateTask.title + ' not updated due to server error', 'error');
       }
     );
   }
@@ -205,6 +265,7 @@ export class TaskComponent implements OnInit {
            // this.tasks = this.tasks.filter((task: any) => task.id != taskId);
             Swal.fire('Success !!!', 'Task <b>' + title + '</b> marked as done successfully !!!', 'success');
             this.fetchAllTasks();
+            this.isTaskRollover=false;
           }, (error) => {
             console.log('Error !' + error);
             Swal.fire('Error !!!', 'Error in Marking task <b>' + title + '</b> as done', 'error');
@@ -215,7 +276,6 @@ export class TaskComponent implements OnInit {
   }
 
   markAsUnDone(taskId: any, title: any){
-    alert("TASK ID MARKED AS DONE: " + taskId);
     Swal.fire({
       icon: "question",
       title: 'Are you sure you want to mark task <b>' + title + '</b> as undone ?',
@@ -229,6 +289,7 @@ export class TaskComponent implements OnInit {
            // this.tasks = this.tasks.filter((task: any) => task.id != taskId);
             Swal.fire('Success !!!', 'Task <b>' + title + '</b> marke as undone!!!', 'success');
             this.fetchAllTasks();
+            this.isTaskRollover=false;
           }, (error) => {
             console.log('Error !' + error);
             Swal.fire('Error !!!', 'Error in Marking task <b>' + title + '</b> as undone', 'error');
@@ -251,6 +312,7 @@ export class TaskComponent implements OnInit {
         this._task.deleteTask(taskId).subscribe(
           (data: any) => {
             this.fetchAllTasks();
+            this.isTaskRollover=false;
             //this.tasks = this.tasks.filter((task: any) => task.id != taskId);
             Swal.fire('Success !!!', 'Title <b>' + title + '</b> deleted successfully !!!', 'success');
           }, (error) => {
@@ -261,6 +323,72 @@ export class TaskComponent implements OnInit {
       }
     })
   }
+
+
+  public toggle() {
+    this.isTaskRollover = !this.isTaskRollover;
+    // CHANGE THE NAME OF THE BUTTON.
+   // if (this.isTaskRollover)
+      // this.buttonName = "Show EMI Summary";
+    // else
+      // this.buttonName = "Update EMI";
+  }
+  public toggleEmailReminder() {
+    this.addTask.isEmailReminder = !this.addTask.isEmailReminder;
+  }
+
+  public toggleReminder() {
+    this.updateTask.reminderRequired = !this.updateTask.reminderRequired;
+  }
+  
+
+  public toggleSelectAll() {
+    // alert(this.tasks.length)
+    for (let item of this.tasks) {
+      item.selected = this.rollOverTask.selectAll;
+    }
+  }
+  
+  rollOverTaskArray: any = [];
+  
+  public toggleSelectItem(item:any) {
+    if (!item.selected) {
+      this.rollOverTask.selectAll = false;
+      this.rollOverTaskArray.push(item.id);
+      this.showRolloverSubmitButton = true;
+    } else {
+      this.rollOverTask.selectAll = this.tasks.every((item:any) => item.selected);
+      //this.rollOverTaskArray.push(item);
+    }
+  }
+
+  
+  public rollOverTasks() {
+    // const taskId = [1.0, 2.5, 3.7, 4.2];
+    Swal.fire({
+      icon: "question",
+      title: 'Are you sure you want to rollover <b>' + this.rollOverTaskArray.length + ' task(s) </b> to current month?',
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //  delete the category
+        this._task.rollOverTask(this.rollOverTaskArray).subscribe(
+          (response) => {
+            console.log('PUT request successful:', response);
+            Swal.fire('Success !!!', 'Selected task rolled over successfully to current month!!!', 'success');
+           // this.isTaskRollover=false;
+            this.fetchAllTasks();
+            
+          }, (error) => {
+            console.error('PUT request error:', error);
+            Swal.fire('Error !!!', 'Error in Rolling over task to current month', 'error');
+          }
+        );
+      }
+    })
+  }
+
 
 }
 

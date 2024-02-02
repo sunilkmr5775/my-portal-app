@@ -194,6 +194,9 @@ public interface ExceptionConstant {
     
     public static final String DATA_SAVED_SUCCESSFULLY_EC = "DATA101";
     public static final String DATA_SAVED_SUCCESSFULLY_ED = "Data saved successfully.";
+
+	public static final String DATA_UPDATED_SUCCESSFULLY_EC = "DATA102";
+    public static final String DATA_UPDATED_SUCCESSFULLY_ED = "Data updated successfully.";
     
     
     

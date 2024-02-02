@@ -188,7 +188,14 @@
                                     </c-input-group>
                                 </div>
                             </c-col>
-                            <c-col [md]="5"></c-col>
+                            <c-col [md]="5">
+                                <!-- <c-form-check  [(ngModel)]="addTask.isEmailReminder" (change)="toggleEmailReminder()">
+                                    <input cFormCheckInput id="checkOne" type="checkbox"/>
+                                    <label cFormCheckLabel for="checkOne">Send Email Reminder</label>
+                                </c-form-check> -->
+                                <input type="checkbox"  [(ngModel)]="addTask.isEmailReminder" checked
+                                (change)="toggleEmailReminder()"/>&nbsp;&nbsp;Send Email Reminder
+                            </c-col>
                             <c-col [md]="2">
                                 <div>
                                     <button type="reset" cButton color="warning"><b>Clear</b></button>
@@ -238,13 +245,39 @@
         <!-- Task List -->
         <c-col xs>
             <c-card class="mb-4">
-                <c-card-header class="text-left"><b>{{tasks.length}} records found</b></c-card-header>
+                <c-card-header class="text-left">
+                    <!-- && tasks.taskStatus=='PENDING' -->
+                    <b *ngIf="tasks.length > 0 && currentMonth > filterTask.month; else pl90">
+                          <c-form-check sizing="xl" [switch]="true" 
+                           (change)="toggle()">
+                            <input cFormCheckInput type="checkbox" />
+                            <label cFormCheckLabel>Rollover Pending Task</label>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button *ngIf="showRolloverSubmitButton" cButton 
+                             color="primary" size="sm" (click)="rollOverTasks()" >
+                                Submit
+                              </button>
+                            
+                            <b style="padding-left: 70%;">{{tasks.length}} records found</b>
+                          </c-form-check>                   
+                    </b>
+                    
+                    <ng-template #pl90>
+                        <b style="padding-left: 90%;">{{tasks.length}} records found</b>
+                    </ng-template>
+                </c-card-header>
                 <c-card-body>
                     <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable
                         class="mb-0 border">
                         <thead cTableColor="light">
                             <tr>
-                                <th>S.No</th>
+                                <th *ngIf="isTaskRollover;else serialNo">
+                                    <c-form-check  (change)="toggleSelectAll()">
+                                        <input cFormCheckInput id="checkOne" type="checkbox"/>
+                                        <label cFormCheckLabel for="checkOne"></label>
+                                    </c-form-check>
+                                </th>
+                                <ng-template #serialNo><th>S.No</th></ng-template>
                                 <th>Title</th>
                                 <th>Planned Start Date</th>
                                 <th>Planned End Date</th>
@@ -255,9 +288,19 @@
                         </thead>
                         <tbody>
                             <!-- {{tasks | json}} -->
-                            <tr *ngFor="let task of tasks; index as i"  [ngStyle]="{'backgroundColor': task.taskStatus == 'PENDING' ? 'lightred' : 'lightgreen' }">
+                            <!-- {{rollOverTaskArray | json}} -->
+                            <tr *ngFor="let task of tasks; index as i"  [ngStyle]="{'backgroundColor': task.taskStatus == 'PENDING' ? 'lightred' : 'lightgreen' }"> 
+                                <td *ngIf="isTaskRollover && task.taskStatus=='PENDING'; else sno">
+                                    <!-- && task.taskStatus=='PENDING' -->
+                                    <c-form-check (change)="toggleSelectItem(task)">
+                                    <input cFormCheckInput id="checkOne" type="checkbox"/>
+                                    <label cFormCheckLabel for="checkOne"></label>
+                                </c-form-check>
+                               </td>
+                               <ng-template #sno>
                                 <td [class.stroke]="task.taskStatus=='COMPLETED'"> <strong>{{i+1}}</strong>
                                 </td>
+                               </ng-template> 
                                 <td [class.stroke]="task.taskStatus=='COMPLETED'">
                                     <div>
                                         <strong>{{ task.title }}</strong>
@@ -279,17 +322,132 @@
                                 </td>
                                 <td>
                                     <div *ngIf="task.taskStatus=='PENDING'">
-                                        <c-badge class="me-1" color="warning"><svg cIcon
-                                                name="cilClock"></svg></c-badge>
+                                        <c-badge class="me-1"  color="warning"><svg cIcon
+                                                name="cilClock"></svg>&nbsp;Pending</c-badge>
                                     </div>
                                     <div *ngIf="task.taskStatus=='COMPLETED'" >
                                         <c-badge class="me-1" color="success"><svg cIcon
-                                                name="cilCheckCircle"></svg></c-badge>
+                                                name="cilCheckCircle"></svg>&nbsp;Completed</c-badge>
                                     </div>
                                 </td>
 
-                                <td class="text-center">
-                                    <c-badge class="me-1" color="info"><svg cIcon name="cilFolderOpen"></svg></c-badge>
+                                <td>
+                                    <!-- Modal starts -->
+                                      <ng-container *ngTemplateOutlet="optionalSizes"></ng-container>
+                                      <ng-template #optionalSizes>
+                                        <c-badge [cModalToggle]="modalXl.id" class="me-1" 
+                                        (click)="updateSingleTask(task.id)" color="info"><svg cIcon name="cilFolderOpen"></svg></c-badge>
+                                        <c-modal #modalXl id="modalXl" size="xl">
+                                          <c-modal-header>
+                                            <h3 cModalTitle><b>Update Task</b></h3>
+                                          </c-modal-header>
+                                          <!-- {{updateTask | json}} -->
+                                          <c-modal-body>
+                                            <form  cForm cRow>
+                                                <c-col [md]="4">
+                                                        <p><b>Title</b></p>
+                                                        <c-input-group class="mb-3">
+                                                            <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                                            <input autoComplete="title" cFormControl id="validationDefault05" type="text"
+                                                                name="title" [(ngModel)]="updateTask.title" placeholder="Enter title"
+                                                                required />
+                                                        </c-input-group>
+                                                </c-col>
+                                                <c-col [md]="4">
+                                                    <div>
+                                                        <p><b>Description</b>
+                                                        </p>
+                                                        <c-input-group class="mb-3">
+                                                            <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+                                                            <textarea autoComplete="description" cFormControl id="validationDefault05"
+                                                                type="text" name="description" [(ngModel)]="updateTask.description"
+                                                                placeholder="Enter description"></textarea>
+                                                        </c-input-group>
+                                                    </div>
+                                                </c-col>
+                                                <c-col [md]="4">
+                                                    <div>
+                                                        <p><b>Task Status</b>
+                                                        </p>
+                                                        <c-input-group class="mb-3">
+                                                            <select name="interestType" [(ngModel)]="updateTask.taskStatus" cSelect>
+                                                                <option value="0">Select</option>
+                                                                <option value="PENDING" selected>PENDING</option>
+                                                                <option value="COMPLETED">COMPLETED</option>
+                                                            </select>
+                                                        </c-input-group>
+                                                    </div>
+                                                </c-col>
+                                                <c-col [md]="4">
+                                                    <div>
+                                                        <p><b>Planned Action Date</b></p>
+                                                        <c-input-group class="mb-3">
+                                                            <mat-form-field appearance="fill">
+                                                                <mat-label>Planned Action Date</mat-label>
+                                                                <input name="plannedStartDate1" [(ngModel)]="updateDate1" matInput
+                                                                    [matDatepicker]="updatetaskplannedstartdate"
+                                                                    (dateInput)="updateEvent1('input', $event)"
+                                                                    (dateChange)="updateEvent1('change', $event)">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="updatetaskplannedstartdate"></mat-datepicker-toggle>
+                                                                <mat-datepicker #updatetaskplannedstartdate>
+                                                                </mat-datepicker>
+                                                            </mat-form-field>
+                                                        </c-input-group>
+                                                    </div>
+                                                </c-col>
+                                                <c-col [md]="4">
+                                                    <div>
+                                                        <p><b>Planned End Date</b>
+                                                        </p>
+                                                        <c-input-group class="mb-3">
+                                                            <mat-form-field appearance="fill">
+                                                                <mat-label>Planned End date</mat-label>
+                                                                <input name="plannedEndDate1" required [(ngModel)]="updateDate2" matInput
+                                                                    [matDatepicker]="updatetaskplannedenddate"
+                                                                    (dateInput)="updateEvent2('input', $event)"
+                                                                    (dateChange)="updateEvent2('change', $event)">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="updatetaskplannedenddate"></mat-datepicker-toggle>
+                                                                <mat-datepicker #updatetaskplannedenddate>
+                                                                </mat-datepicker>
+                                                            </mat-form-field>
+                                                        </c-input-group>
+                                                    </div>
+                                                </c-col>
+                                                <c-col [md]="4">
+                                                    <div>
+                                                        <p><b>Task
+                                                                Priority</b></p>
+                                                        <c-input-group class="mb-3">
+                                                            <select name="priority" cSelect [(ngModel)]="updateTask.priority">
+                                                                <option value="0">Select</option>
+                                                                <option value="HIGH">HIGH</option>
+                                                                <option value="MEDIUM">MEDIUM</option>
+                                                                <option value="LOW">LOW</option>
+                                                            </select>
+                                                        </c-input-group>
+                                                    </div>
+                                                </c-col>
+                                                <c-col [md]="2">
+                                                    <input type="checkbox" checked [(ngModel)]="updateTask.reminderRequired"
+                                                    (click)="toggleReminder()"/>&nbsp;&nbsp;Send Email Reminder
+                                                </c-col>
+                                                <c-col [md]="3"></c-col>
+                                                <c-col [md]="7">
+                                                    <div>
+                                                        <button type="reset" cButton color="warning"><b>Clear</b></button>
+                                                        <button type="submit"  cButton color="success"
+                                                        (click)="updateExistingTask()">Submit</button>
+                                                    </div>
+                                                </c-col>
+                                                
+                                            </form>
+                                          </c-modal-body>
+                                        </c-modal>
+                                       </ng-template>
+                                    <!-- Modal ends -->
+
                                     <c-badge type="submit" class="me-1" color="danger"
                                         (click)="deleteTask(task.id, task.title)"><svg cIcon
                                             name="cilTrash"></svg></c-badge>

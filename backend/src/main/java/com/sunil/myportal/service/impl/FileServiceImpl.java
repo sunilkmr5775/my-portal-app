@@ -282,6 +282,20 @@ public class FileServiceImpl implements FileService {
 		return fileResponse;
 	}
 
+	@Override
+	public void store(FileRequest fileRequest) throws IOException {
+		// write the business logic here to store the file in the database using jobname and then validate the file.
+		MultipartFile multipartFile = fileRequest.getFile();
+		String jobName = fileRequest.getJobName();
+		//check whether jobname is present in the database or not.
+		JobMaster job = jobMasterRepository.findJobMasterDetailsByJobName(jobName);
+		fileUtil.validateFileRequest(multipartFile, job.getFileType());
+
+		LOGGER.info("Storing file...");
+		LOGGER.info("File stored successfully...");
+
+	}
+
 	private FileResponse processFile(String record, String finalFileName, String fileType, Long fileLogId, String userName)
 			throws FileUploadException {
 		FileResponse fileResponse = new FileResponse();

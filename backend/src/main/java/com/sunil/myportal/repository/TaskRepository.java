@@ -22,9 +22,9 @@ public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
 
 	@Query("SELECT c FROM TaskMaster c WHERE 1=1 and ( c.title like %:title%) " +
 			"and (:taskStatus is null or c.taskStatus = :taskStatus) " +
-			"and (c.createdDate >= :taskStartDate and c.createdDate < :taskEndDate )" +
+			"and (c.plannedEndDate >= :taskStartDate and c.plannedEndDate < :taskEndDate )" +
 			"order by createdDate DESC")
-	List<TaskMaster> findTaskMasterDetailsByTitleAndTaskStatusAndByCreatedDate(
+	List<TaskMaster> findTaskMasterDetailsByTitleAndTaskStatusAndByPlannedEndDate(
 			@Param("title") String title, @Param("taskStatus")String taskStatus,
 			@Param("taskStartDate") LocalDate taskStartDate,
 			@Param("taskEndDate") LocalDate taskEndDate
@@ -33,11 +33,13 @@ public interface TaskRepository extends JpaRepository<TaskMaster, Long> {
 
 	@Query("SELECT c FROM TaskMaster c WHERE 1=1 and " +
 			"c.isDeleted = :isDeleted and " +
-			" (c.createdDate >= :taskStartDate and c.createdDate < :taskEndDate )" +
-			"order by createdDate DESC")
-	List<TaskMaster> findAllByIsDeletedAndByCreatedDate(boolean isDeleted,
+			" (c.plannedEndDate >= :taskStartDate and c.plannedEndDate < :taskEndDate )" +
+			"order by c.plannedStartDate DESC")
+	List<TaskMaster> findAllByIsDeletedAndByPlannedEndDate(@Param("isDeleted") boolean isDeleted,
 														@Param("taskStartDate") LocalDate taskStartDate,
 														@Param("taskEndDate") LocalDate taskEndDate);
 
-	List<TaskMaster> findAllByTaskStatus(String statusPending);
+	List<TaskMaster> findAllByTaskStatusAndIsDeleted(String statusPending, boolean isDeleted);
+
+    List<TaskMaster> findAllByIsCurrentDayReminderSent(boolean reminderSent);
 }

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +41,18 @@ public class TaskServiceImpl implements TaskService {
             task.setActualEndDate(taskRequest.getActualEndDate());
             task.setTaskStatus(StatusConstant.STATUS_PENDING);
             task.setPriority(taskRequest.getPriority());
+            task.setIsCurrentDayReminderSent(false);
+            task.setReminderRequired(true);
+            if(taskRequest.isReminderRequired() || 1==1){
+                task.setTotalReminder(taskRequest.getPriority().equals("LOW") ? 3 :
+                        taskRequest.getPriority().equals("MEDIUM") ? 5 :
+                                taskRequest.getPriority().equals("HIGH") ? 8 : 0);
+                task.setReminderSent(0);
+                task.setReminderPending(taskRequest.getPriority().equals("LOW") ? 3 :
+                        taskRequest.getPriority().equals("MEDIUM") ? 5 :
+                                taskRequest.getPriority().equals("HIGH") ? 8 : 0);
+            }
+
             task.setCreatedBy("sunilkmr5775");
             task.setCreatedDate(LocalDate.now());
             task.setModifiedBy(null);
@@ -56,6 +67,58 @@ public class TaskServiceImpl implements TaskService {
 
                     return taskResponse;
                 }
+            } catch (Exception e) {
+                taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
+                taskResponse.setTitle(taskRequest.getTitle());
+                taskResponse.setErrorCode(ExceptionConstant.FILE_NOT_SAVED_EC);
+                taskResponse.setErrorDescription(e.getMessage());
+                return taskResponse;
+            }
+        } catch (Exception ex) {
+            taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
+            taskResponse.setTitle(taskRequest.getTitle());
+            taskResponse.setErrorCode(ExceptionConstant.FILE_NOT_SAVED_EC);
+            taskResponse.setErrorDescription(ex.getMessage());
+            return taskResponse;
+        }
+        return taskResponse;
+    }
+
+    public TaskResponse updateTask(TaskRequest taskRequest) {
+        TaskResponse taskResponse = new TaskResponse();
+        TaskMaster task = new TaskMaster();
+        try {
+            task = taskRepository.findById(taskRequest.getId()).orElseThrow(()-> new RuntimeException());
+            task.setTitle(taskRequest.getTitle());
+            task.setDescription(taskRequest.getDescription());
+            task.setPlannedStartDate(taskRequest.getPlannedStartDate() == null ?
+                    LocalDate.now() : taskRequest.getPlannedStartDate());
+            task.setPlannedEndDate(taskRequest.getPlannedEndDate() == null ?
+                    LocalDate.now() : taskRequest.getPlannedEndDate());
+            task.setActualStartDate(taskRequest.getActualStartDate());
+            task.setActualEndDate(taskRequest.getActualEndDate());
+            task.setTaskStatus(taskRequest.getTaskStatus());
+            task.setPriority(taskRequest.getPriority());
+            task.setReminderRequired(taskRequest.isReminderRequired());
+           /* if(taskRequest.isEmailReminder()){
+                task.setTotalReminder(taskRequest.getPriority().equals("LOW") ? 3 :
+                        taskRequest.getPriority().equals("MEDIUM") ? 5 :
+                                taskRequest.getPriority().equals("HIGH") ? 8 : 0);
+                //task.setReminderSent(0);
+                task.setReminderPending(taskRequest.getPriority().equals("LOW") ? 3 :
+                        taskRequest.getPriority().equals("MEDIUM") ? 5 :
+                                taskRequest.getPriority().equals("HIGH") ? 8 : 0);
+            }*/
+
+            task.setModifiedBy("sunilkmr5775");
+            task.setModifiedDate(LocalDateTime.now());
+            taskRepository.save(task);
+            try {
+                    taskResponse.setTitle(taskRequest.getTitle());
+                    taskResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+                    taskResponse.setErrorCode(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_EC);
+                    taskResponse.setErrorDescription(ExceptionConstant.DATA_SAVED_SUCCESSFULLY_ED);
+//                    return taskResponse;
             } catch (Exception e) {
                 taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
                 taskResponse.setTitle(taskRequest.getTitle());
@@ -132,7 +195,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskMaster> getAllActiveTasks() {
-        return new ArrayList<>(taskRepository.findAllByTaskStatus(StatusConstant.STATUS_PENDING));
+        return new ArrayList<>(taskRepository.findAllByTaskStatusAndIsDeleted(StatusConstant.STATUS_PENDING,
+                false));
     }
 
 
@@ -141,7 +205,7 @@ public class TaskServiceImpl implements TaskService {
         LocalDate taskFirstDate = CommonUtil.getFirstDateOfTheMonth(LocalDate.now());
         LocalDate taskLastDate = CommonUtil.getLastDateOfTheMonth(LocalDate.now());
         List<TaskMaster> pendingTaskList = new ArrayList<>(taskRepository.
-                findAllByIsDeletedAndByCreatedDate(false, taskFirstDate, taskLastDate));
+                findAllByIsDeletedAndByPlannedEndDate(false, taskFirstDate, taskLastDate));
 
         /* List<TaskMaster> filteredTaskList =
                 pendingTaskList.stream().filter(a ->(
@@ -161,6 +225,7 @@ public class TaskServiceImpl implements TaskService {
             if (task != null) {
                 //task.setTaskStatus(StatusConstant.STATUS_DELETED);
                 task.setDeleted(true);
+                task.setTaskStatus(StatusConstant.STATUS_DELETED);
                 task.setModifiedBy("sunilkmr5775");
                 task.setModifiedDate(LocalDateTime.now());
                 this.taskRepository.save(task);
@@ -207,13 +272,41 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskMaster> getTaskRecordsByFilter(String taskTitle, String taskStatus, String taskYear, String taskMonth) {
-        String inputTaskDate=taskYear+"-"+taskMonth+"-01";
+        String inputTaskDate = taskYear + "-" + taskMonth + "-01";
         LocalDate taskFirstDate = CommonUtil.getFirstDateOfTheMonth(CommonUtil.convertStringToLocalDate(inputTaskDate));
         LocalDate taskLastDate = CommonUtil.getLastDateOfTheMonth(CommonUtil.convertStringToLocalDate(inputTaskDate));
-
-        List<TaskMaster> jobList = this.taskRepository.findTaskMasterDetailsByTitleAndTaskStatusAndByCreatedDate(taskTitle, taskStatus,
+        List<TaskMaster> jobList = this.taskRepository.findTaskMasterDetailsByTitleAndTaskStatusAndByPlannedEndDate(taskTitle, taskStatus,
                 taskFirstDate, taskLastDate);
-        return jobList;
+        return jobList.stream().filter(task -> task.isDeleted() == false).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public TaskResponse rollOverTask(List<Long> rollOverTaskList) {
+        TaskResponse taskResponse = new TaskResponse();
+        if (rollOverTaskList.size() > 0) {
+            for (long rollOverTaskId : rollOverTaskList) {
+                TaskMaster taskMaster = taskRepository.findById(rollOverTaskId).get();
+                taskMaster.setActualStartDate(LocalDate.now());
+                taskMaster.setActualEndDate(LocalDate.now().plusDays(10));
+                taskMaster.setPlannedStartDate(LocalDate.now());
+                taskMaster.setPlannedEndDate(LocalDate.now().plusDays(10));
+                taskMaster.setModifiedDate(LocalDateTime.now());
+                taskRepository.save(taskMaster);
+            }
+        } else {
+            // empty list cannot be processed
+            taskResponse.setStatus(StatusConstant.STATUS_FAILURE);
+            taskResponse.setErrorCode(ExceptionConstant.UNKNOWN_ERROR_EC);
+            taskResponse.setErrorDescription("No task found in the list");
+        }
+      //  taskResponse.setTitle(taskRequest.getTitle());
+        taskResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+        taskResponse.setErrorCode(ExceptionConstant.DATA_UPDATED_SUCCESSFULLY_EC);
+        taskResponse.setErrorDescription(ExceptionConstant.DATA_UPDATED_SUCCESSFULLY_ED);
+
+        return taskResponse;
+
     }
 
 }

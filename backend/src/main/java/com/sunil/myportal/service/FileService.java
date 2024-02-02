@@ -12,4 +12,7 @@ import com.sunil.myportal.exception.FileUploadException;
 public interface FileService {
 
 	public FileResponse uploadFile(FileRequest fileRequest) throws FileUploadException, IOException ;
+
+    void store(FileRequest fileRequest) throws IOException;
+
 }
