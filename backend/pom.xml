@@ -63,16 +63,7 @@
             <!-- Java Mail -->
             <!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-mail</artifactId>
                 <version>2.3.5.RELEASE</version> </dependency> -->
-
-            <!-- spring boot web -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
-
-            <!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId>
-                <scope>runtime</scope> <optional>true</optional> </dependency> -->
-            <dependency>
+             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-tomcat</artifactId>
                 <!--			<scope>provided</scope>-->
