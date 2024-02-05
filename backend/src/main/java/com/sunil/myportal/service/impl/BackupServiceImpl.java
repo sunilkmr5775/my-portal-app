@@ -1,6 +1,8 @@
 package com.sunil.myportal.service.impl;
 
+import com.sunil.myportal.constant.StatusConstant;
 import com.sunil.myportal.model.Backup;
+import com.sunil.myportal.model.Loan;
 import com.sunil.myportal.repository.BackupRepository;
 import com.sunil.myportal.service.BackupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BackupServiceImpl implements BackupService {
@@ -48,6 +52,23 @@ public class BackupServiceImpl implements BackupService {
 
     }
 
+    @Override
+    public List<Backup> getAllDatabaseDump() {
+        return new ArrayList<>(this.backupRepository.findAll());
+    }
+
+    @Override
+    public void deleteBackup(Long id) {
+        String message = null;
+       try{
+           this.backupRepository.deleteById(id);
+            message = "Backup deleted successfully.";
+       } catch (Exception ex){
+           ex.printStackTrace();
+       }
+      // return message;
+    }
+
     public String performBackup(String backupFileName) {
         String result = null;
         String database = "my-portal-db";
@@ -74,4 +95,5 @@ public class BackupServiceImpl implements BackupService {
         }
         return result;
     }
+
 }
