@@ -1,18 +1,19 @@
 package com.sunil.myportal.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sunil.myportal.config.SystemInfo;
+import com.sunil.myportal.dto.BankRequest;
+import com.sunil.myportal.dto.BaseResponse;
+import com.sunil.myportal.dto.JobRequest;
+import com.sunil.myportal.dto.JobResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.sunil.myportal.model.BankMaster;
 import com.sunil.myportal.service.BankMasterService;
@@ -27,6 +28,14 @@ public class BankMasterController {
     @Autowired
     private BankMasterService bankMasterService;
 
+
+    @PostMapping("/")
+    public BaseResponse addBank(@Validated @RequestBody BankRequest bankRequest)
+            throws UnsupportedOperationException, URISyntaxException, IOException {
+
+        return bankMasterService.addBank(bankRequest);
+
+    }
     //	 GET ALL CATEGORIES
     @GetMapping("/")
     public List<BankMaster> getAllBanks() {

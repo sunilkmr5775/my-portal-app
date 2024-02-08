@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.sunil.myportal.exception.InvalidDatabaseConnectionException;
 import com.sunil.myportal.model.BankMaster;
+import com.sunil.myportal.repository.EmiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,8 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private LoanTypeRepository loanTypeRepository;
 
-//	@Autowired
-//	private EmiRepository emiRepository;
+	@Autowired
+	private EmiRepository emiRepository;
 
     @Override
     public LoanResponse addNewLoan(LoanRequest loanRequest)
@@ -55,13 +56,10 @@ public class LoanServiceImpl implements LoanService {
             loan.setEmiPaid(loanRequest.getEmiPaid());
             loan.setEmiRemaining(loanRequest.getEmiRemaining());
             loan.setFirstEmiDate(loanRequest.getFirstEmiDate());
-            loan.setInterestPaid(
-                    loanRequest.getInterestPaid() != null ? loanRequest.getInterestPaid() : new BigDecimal("0.0"));
             loan.setInterestType(loanRequest.getInterestType());
             loan.setLastEmiDate(loanRequest.getLastEmiDate());
-            loan.setLoanAmount(
-
-                    loanRequest.getLoanAmount() != null ? loanRequest.getLoanAmount() : new BigDecimal("0.0"));
+            loan.setLoanAmount(loanRequest.getLoanAmount() != null ?
+                    loanRequest.getLoanAmount() : new BigDecimal("0.0"));
 
             BankMaster bm = new BankMaster();
 
@@ -113,7 +111,6 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public List<Loan> getAllLoans() {
         return new ArrayList<>(this.loanRepository.findAllByLoanStatus(true));
-//		return new ArrayList<>(this.loanRepository.findAllByLoanStatus(Sort.by(Sort.Direction.ASC, "bankName")));
     }
 
     @Override

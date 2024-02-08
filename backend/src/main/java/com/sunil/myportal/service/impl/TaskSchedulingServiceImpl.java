@@ -121,13 +121,13 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
                 LocalDate today = LocalDate.now();
                 LocalDate fistDayOfCurrentMonth = CommonUtil.getFirstDateOfTheMonth(today);
                 LocalDate lastDayOfCurrentMonth = CommonUtil.getLastDateOfTheMonth(today);
-                Emi pendingEmi = emiRepository.findByLoanNoAndStatusAndEmiDateBetween(activeLoan.getLoanNo(), StatusConstant.STATUS_UNPAID, fistDayOfCurrentMonth, lastDayOfCurrentMonth);
+                Emi pendingEmi = emiRepository.findByLoanNoAndPaymentStatusAndEmiDateBetween(activeLoan.getLoanNo(), StatusConstant.STATUS_UNPAID, fistDayOfCurrentMonth, lastDayOfCurrentMonth);
                 if (pendingEmi != null) {
                     boolean isLoanDetailsUpdated = false;
                     BigDecimal defaultAmount = new BigDecimal("0.00");
                     pendingEmi.setLoan(activeLoan);
                     pendingEmi.setLoanNo(activeLoan.getLoanNo());
-                    pendingEmi.setStatus(StatusConstant.STATUS_PAID);
+                    pendingEmi.setPaymentStatus(StatusConstant.STATUS_PAID);
                     pendingEmi.setEmiStatus(true);
                     isLoanDetailsUpdated = updateLoanCounter(loan);
                     if (isLoanDetailsUpdated) {
@@ -143,11 +143,9 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
                     nextMonthEmi.setLoan(activeLoan);
                     nextMonthEmi.setLoanNo(activeLoan.getLoanNo());
                     nextMonthEmi.setEmiAmount(pendingEmi.getEmiAmount());
-                    nextMonthEmi.setLateFineCharge(defaultAmount);
-                    nextMonthEmi.setInterestAmount(defaultAmount.add(pendingEmi.getEmiAmount()));
                     nextMonthEmi.setEmiDate(pendingEmi.getEmiDate().plusMonths(1));
                     nextMonthEmi.setEmiStatus(false);
-                    nextMonthEmi.setStatus(StatusConstant.STATUS_UNPAID);
+                    nextMonthEmi.setPaymentStatus(StatusConstant.STATUS_UNPAID);
                     nextMonthEmi.setTotalAmount(defaultAmount.add(pendingEmi.getEmiAmount()));
                     nextMonthEmi.setCreatedBy("sunilkumar5775");
                     nextMonthEmi.setCreatedDate(LocalDateTime.now());

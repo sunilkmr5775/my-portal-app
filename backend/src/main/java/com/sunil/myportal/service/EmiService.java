@@ -21,7 +21,6 @@ public interface EmiService {
 	public Emi getEmi(Long emiId);
 	
 	public void deleteEmi(Long emiId);
-	
-	public List<Emi> getEmiOfLoan(Loan loan);
-	
+
+    Set<Emi> getEmiOfLoan(Long loanId);
 }

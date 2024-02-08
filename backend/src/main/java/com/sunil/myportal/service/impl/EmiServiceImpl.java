@@ -38,9 +38,7 @@ public class EmiServiceImpl implements EmiService {
             emi.setLoan(loan);
             emi.setEmiAmount(emi.getEmiAmount());
             emi.setEmiDate(emi.getEmiDate());
-            emi.setLateFineCharge(defaultAamount);
-            emi.setInterestAmount(defaultAamount.add(emi.getEmiAmount()));
-            emi.setStatus(
+            emi.setPaymentStatus(
                     emi.isEmiStatus() == true ? StatusConstant.STATUS_PAID
                             : emi.isEmiStatus() == false ? StatusConstant.STATUS_UNPAID.toString()
                             : StatusConstant.STATUS_UNKNOWN);
@@ -62,11 +60,9 @@ public class EmiServiceImpl implements EmiService {
 //            updateLoanCounter(loanNextEmi);
             nextMonthEmi.setLoan(loan);
             nextMonthEmi.setEmiAmount(emi.getEmiAmount());
-            nextMonthEmi.setLateFineCharge(defaultAamount);
-            nextMonthEmi.setInterestAmount(defaultAamount.add(emi.getEmiAmount()));
             nextMonthEmi.setEmiDate(emi.getEmiDate().plusMonths(1));
             nextMonthEmi.setEmiStatus(false);
-            nextMonthEmi.setStatus(StatusConstant.STATUS_UNPAID);
+            nextMonthEmi.setPaymentStatus(StatusConstant.STATUS_UNPAID);
             nextMonthEmi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
             nextMonthEmi.setCreatedBy("sunilkumar5775");
             nextMonthEmi.setCreatedDate(LocalDateTime.now());
@@ -121,9 +117,10 @@ public class EmiServiceImpl implements EmiService {
     }
 
     @Override
-    public List<Emi> getEmiOfLoan(Loan loan) {
+    public Set<Emi> getEmiOfLoan(Long loanId) {
         // TODO Auto-generated method stub
-        return this.emiRepository.findByLoan(loan);
+        Loan loanDetails = this.loanRepository.findByLoanId(loanId);
+        return this.emiRepository.findByLoan(loanDetails);
     }
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -32,27 +33,20 @@ public class Emi {
 	@Column(name = "EMI_AMOUNT")
 	private BigDecimal emiAmount;
 
-	@Column(name = "INTEREST_AMOUNT")
-	private BigDecimal interestAmount;
-
 	@Column(name = "NO_OF_PAYMENT")
 	private long noOfPayment;
 
 	@Column(name = "EMI_DATE")
 	private LocalDate emiDate;
 
-	@Column(name = "LATE_FINE_CHARGE")
-	private BigDecimal lateFineCharge;
-
 	@Column(name = "TOTAL_AMOUNT")
 	private BigDecimal totalAmount;
-
-	@Column(name = "STATUS")
-	private String status;
 	
 	@Column(name = "EMI_STATUS")
 	private boolean emiStatus;
 
+	@Column(name = "PAYMENT_STATUS")
+	private String paymentStatus;
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
@@ -69,6 +63,7 @@ public class Emi {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="LOAN_ID")
+	@JsonIgnore
 	private Loan loan;
 
 
@@ -94,14 +89,6 @@ public class Emi {
 		this.emiAmount = emiAmount;
 	}
 
-	public BigDecimal getInterestAmount() {
-		return interestAmount;
-	}
-
-	public void setInterestAmount(BigDecimal interestAmount) {
-		this.interestAmount = interestAmount;
-	}
-
 	public long getNoOfPayment() {
 		return noOfPayment;
 	}
@@ -118,14 +105,6 @@ public class Emi {
 		this.emiDate = emiDate;
 	}
 
-	public BigDecimal getLateFineCharge() {
-		return lateFineCharge;
-	}
-
-	public void setLateFineCharge(BigDecimal lateFineCharge) {
-		this.lateFineCharge = lateFineCharge;
-	}
-
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
@@ -134,12 +113,12 @@ public class Emi {
 		this.totalAmount = totalAmount;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getPaymentStatus() {
+		return paymentStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 
 	public String getCreatedBy() {

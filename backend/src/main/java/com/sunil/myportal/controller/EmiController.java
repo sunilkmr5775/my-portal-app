@@ -2,6 +2,7 @@ package com.sunil.myportal.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.sunil.myportal.model.Emi;
 import com.sunil.myportal.model.Loan;
@@ -71,12 +72,10 @@ public class EmiController {
 	}
 	
 	@GetMapping("/category/{loanId}")
-	public List<Emi> getEmiOfLoan(@PathVariable("loanId") Long loanId){
+	public Set<Emi> getEmiOfLoan(@PathVariable("loanId") Long loanId){
 		Loan loan = new Loan();
 		loan.setLoanId(loanId);
-		return this.emiService.getEmiOfLoan(loan);
+		return this.emiService.getEmiOfLoan(loanId);
 	}
-	
-
 
 }

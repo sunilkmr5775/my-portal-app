@@ -1,7 +1,7 @@
 package com.sunil.myportal.repository;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +14,7 @@ import com.sunil.myportal.model.Loan;
 public interface EmiRepository extends JpaRepository<Emi, Long> {
 
 	
-	List<Emi> findByLoan(Loan loan);
+	Set<Emi> findByLoan(Loan loan);
 
 	@Query("select e from Emi e inner join fetch e.loan where e.eId=:id")
 	Emi findAllByEid(Long id);
@@ -23,7 +23,9 @@ public interface EmiRepository extends JpaRepository<Emi, Long> {
 
 	Emi findByEmiDateBetween(LocalDate fistDayOfCurrentMonth, LocalDate lastDayOfCurrentMonth);
 
-	Emi findByStatus(String statusUnpaid);
+	Emi findByPaymentStatus(String statusUnpaid);
 
-	Emi findByLoanNoAndStatusAndEmiDateBetween(String loanId, String statusUnpaid, LocalDate fistDayOfCurrentMonth, LocalDate lastDayOfCurrentMonth);
+	Emi findByLoanNoAndPaymentStatusAndEmiDateBetween(String loanId, String statusUnpaid, LocalDate fistDayOfCurrentMonth, LocalDate lastDayOfCurrentMonth);
+
+//    void findByLoanId(Long loanId);
 }
