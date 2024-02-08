@@ -38,9 +38,6 @@ public class Emi {
 
 	@Column(name = "EMI_DATE")
 	private LocalDate emiDate;
-
-	@Column(name = "TOTAL_AMOUNT")
-	private BigDecimal totalAmount;
 	
 	@Column(name = "EMI_STATUS")
 	private boolean emiStatus;
@@ -103,14 +100,6 @@ public class Emi {
 
 	public void setEmiDate(LocalDate emiDate) {
 		this.emiDate = emiDate;
-	}
-
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
 	}
 
 	public String getPaymentStatus() {

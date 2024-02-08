@@ -5,13 +5,11 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.sunil.myportal.exception.InvalidDatabaseConnectionException;
 import com.sunil.myportal.model.BankMaster;
+import com.sunil.myportal.repository.BankMasterRepository;
 import com.sunil.myportal.repository.EmiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -38,6 +36,9 @@ public class LoanServiceImpl implements LoanService {
 
 	@Autowired
 	private EmiRepository emiRepository;
+
+    @Autowired
+    private BankMasterRepository bankRepository;
 
     @Override
     public LoanResponse addNewLoan(LoanRequest loanRequest)
@@ -110,7 +111,16 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<Loan> getAllLoans() {
-        return new ArrayList<>(this.loanRepository.findAllByLoanStatus(true));
+        List<Loan> allLoans = new ArrayList<>(this.loanRepository.findAllByLoanStatus(true));
+        Optional<BankMaster> bank;
+        for(Loan loan:allLoans){
+            bank = Optional.of(bankRepository.findById(Long.valueOf(loan.getBank()))).get();
+            if(bank.isPresent()){
+                loan.setBank(bank.get().getBankName());
+            }
+
+        }
+        return allLoans;
     }
 
     @Override
