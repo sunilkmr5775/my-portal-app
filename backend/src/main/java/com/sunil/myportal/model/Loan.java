@@ -95,9 +95,6 @@ public class Loan {
 	@Column(name = "EXTRA_ATTR4")
 	private String extAttr4;
 
-	@Column(name = "INTEREST_PAID")
-	private BigDecimal interestPaid;
-
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
@@ -113,7 +110,7 @@ public class Loan {
 	private LocalDateTime modifiedDate;
 
 	@OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
-	@JsonIgnore
+//	@JsonIgnore
 	private Set<Emi> emiSet = new LinkedHashSet<>();
 
 	public Loan() {
@@ -269,14 +266,6 @@ public class Loan {
 
 	public void setEmiAmount(BigDecimal emiAmount) {
 		this.emiAmount = emiAmount;
-	}
-
-	public BigDecimal getInterestPaid() {
-		return interestPaid;
-	}
-
-	public void setInterestPaid(BigDecimal interestPaid) {
-		this.interestPaid = interestPaid;
 	}
 
 	public boolean isLoanStatus() {

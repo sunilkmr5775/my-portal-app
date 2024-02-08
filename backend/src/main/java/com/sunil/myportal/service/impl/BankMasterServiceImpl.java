@@ -1,10 +1,15 @@
 package com.sunil.myportal.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sunil.myportal.constant.StatusConstant;
+import com.sunil.myportal.dto.BankRequest;
+import com.sunil.myportal.dto.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sunil.myportal.model.BankMaster;
@@ -16,6 +21,24 @@ public class BankMasterServiceImpl implements BankMasterService {
 
 	@Autowired
 	private BankMasterRepository bankMasterRepository;
+
+	@Override
+	public BaseResponse addBank(BankRequest bankRequest) {
+		BankMaster bankMaster = new BankMaster();
+		bankMaster.setBankName(bankRequest.getBankName());
+		bankMaster.setStatus(bankRequest.getStatus());
+		bankMaster.setCreatedBy("sunilkmr5775");
+		bankMaster.setCreatedDate(LocalDateTime.now());
+
+		BaseResponse baseResponse = new BaseResponse();
+		baseResponse.setErrorCode(String.valueOf(HttpStatus.CREATED.value()));
+		baseResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+		baseResponse.setErrorDescription(StatusConstant.DATA_SAVED);
+		bankMasterRepository.save(bankMaster);
+
+		return baseResponse;
+
+	}
 
 	@Override
 	public List<BankMaster> getAllBanks() {
