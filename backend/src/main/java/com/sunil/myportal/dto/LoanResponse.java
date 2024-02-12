@@ -39,8 +39,7 @@ public class LoanResponse extends BaseResponse {
 	private String status;
 	private String logoName;
 	private String bank;
-
-	private String extAttr2;
+  private String extAttr2;
 	private String extAttr3;
 	private String extAttr4;
 	private String createdBy;

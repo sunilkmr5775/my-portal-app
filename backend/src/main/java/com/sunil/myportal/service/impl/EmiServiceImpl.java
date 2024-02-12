@@ -64,7 +64,6 @@ public class EmiServiceImpl implements EmiService {
             nextMonthEmi.setEmiDate(emi.getEmiDate().plusMonths(1));
             nextMonthEmi.setEmiStatus(false);
             nextMonthEmi.setPaymentStatus(StatusConstant.STATUS_UNPAID);
-//            nextMonthEmi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
             nextMonthEmi.setCreatedBy("sunilkumar5775");
             nextMonthEmi.setCreatedDate(LocalDateTime.now());
             nextMonthEmi.setNoOfPayment(loan.getEmiPaid()+1);

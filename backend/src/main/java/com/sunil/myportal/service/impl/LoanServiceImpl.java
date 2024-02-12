@@ -34,8 +34,8 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private LoanTypeRepository loanTypeRepository;
 
-	@Autowired
-	private EmiRepository emiRepository;
+	  @Autowired
+	  private EmiRepository emiRepository;
 
     @Autowired
     private BankMasterRepository bankRepository;
