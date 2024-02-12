@@ -59,6 +59,7 @@ public class EmiServiceImpl implements EmiService {
 //            loanNextEmi = loanRepository.findByLoanNo(emi.getLoanNo());
 //            updateLoanCounter(loanNextEmi);
             nextMonthEmi.setLoan(loan);
+            nextMonthEmi.setLoanNo(emi.getLoanNo());
             nextMonthEmi.setEmiAmount(emi.getEmiAmount());
             nextMonthEmi.setEmiDate(emi.getEmiDate().plusMonths(1));
             nextMonthEmi.setEmiStatus(false);

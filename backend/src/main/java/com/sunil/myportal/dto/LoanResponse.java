@@ -39,9 +39,6 @@ public class LoanResponse extends BaseResponse {
 	private String status;
 	private String logoName;
 	private String bank;
-//@ManyToOne
-//@JoinColumn(name="bank", nullable=false)
-//private BankMaster bankMaster;
 
 	private String extAttr2;
 	private String extAttr3;

@@ -64,7 +64,7 @@ public class LoanServiceImpl implements LoanService {
 
             BankMaster bm = new BankMaster();
 
-//			loan.setBankMaster(loanRequest.getBank());
+			loan.setBank(loanRequest.getBank());
             loan.setInterestRate(loanRequest.getInterestRate());
             loan.setLoanStatus(loanRequest.isLoanStatus());
             loan.setTotalEmi(loanRequest.getTotalEmi());
@@ -114,11 +114,14 @@ public class LoanServiceImpl implements LoanService {
         List<Loan> allLoans = new ArrayList<>(this.loanRepository.findAllByLoanStatus(true));
         Optional<BankMaster> bank;
         for(Loan loan:allLoans){
-            bank = Optional.of(bankRepository.findById(Long.valueOf(loan.getBank()))).get();
-            if(bank.isPresent()){
-                loan.setBank(bank.get().getBankName());
+            if(loan.getBank()!=null && loan.getBank().length() > 0){
+                bank = Optional.of(bankRepository.findById(Long.valueOf(loan.getBank()))).get();
+                if(bank.isPresent()){
+                    loan.setBank(bank.get().getBankName());
+                }
+            } else {
+                bank = Optional.empty();
             }
-
         }
         return allLoans;
     }
