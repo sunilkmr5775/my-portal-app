@@ -146,7 +146,6 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
                     nextMonthEmi.setEmiDate(pendingEmi.getEmiDate().plusMonths(1));
                     nextMonthEmi.setEmiStatus(false);
                     nextMonthEmi.setPaymentStatus(StatusConstant.STATUS_UNPAID);
-                    nextMonthEmi.setTotalAmount(defaultAmount.add(pendingEmi.getEmiAmount()));
                     nextMonthEmi.setCreatedBy("sunilkumar5775");
                     nextMonthEmi.setCreatedDate(LocalDateTime.now());
                     nextMonthEmi.setNoOfPayment(activeLoan.getEmiPaid() + 1);
