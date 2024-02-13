@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "DATABASE_DETAILS")
+@Table(name = "database_details")
 public class DatabaseMaster {
 
 	@Id

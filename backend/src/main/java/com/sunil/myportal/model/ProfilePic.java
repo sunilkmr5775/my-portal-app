@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PROFILE_PIC")
+@Table(name = "profile_pic")
 
 public class ProfilePic implements Serializable 
 {

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "PREMIUM_HISTORY")
+@Table(name = "premium_history")
 public class Premiums {
 
 	@Id

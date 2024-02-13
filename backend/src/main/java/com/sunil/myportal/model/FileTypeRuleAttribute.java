@@ -14,7 +14,7 @@ import com.sun.istack.NotNull;
 
 
 @Entity
-@Table(name = "FILE_TYPE_RULE_ATTRIBUTE")
+@Table(name = "file_type_rule_attribute")
 public class FileTypeRuleAttribute {
 
     @Id

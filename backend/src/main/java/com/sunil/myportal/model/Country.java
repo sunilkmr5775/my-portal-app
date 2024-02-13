@@ -1,56 +1,65 @@
 package com.sunil.myportal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@NoArgsConstructor
+
 @AllArgsConstructor
 //@RequiredArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "notification")
-public class Notification {
+@Table(name = "country")
+public class Country {
 
 	@Id
+	@NotNull
+	@Column(name = "COUNTRY_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private long id;
+	@JsonIgnore
+	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="EVENT_ID")
-	private EventMaster event;
+	@Column(name = "COUNTRY_CODE")
+	private String countryCode;
 
-	@Column(name = "USER_TO_NOTIFY")
-	private String userToNotify;
-
-	@Column(name = "CRON_EXPRESSION")
-	private String cronExpression;
+	@Column(name = "NAME")
+	private String name;
 
 	@Column(name = "STATUS")
 	private String status;
 
-	@Column(name = "IS_DELETED")
-	private boolean isDeleted;
-
+	@JsonIgnore
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
+	@JsonIgnore
 	@Column(name = "CREATED_DATE")
 	private LocalDateTime createdDate;
 
+	@JsonIgnore
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
+	@JsonIgnore
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modifiedDate;
 
 
+	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+//	@JsonIgnore
+	private Set<State> states = new LinkedHashSet<>();
+
+	public Country() {
+	}
 
 }

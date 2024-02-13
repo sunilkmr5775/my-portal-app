@@ -42,7 +42,7 @@ public class EmiServiceImpl implements EmiService {
                     emi.isEmiStatus() == true ? StatusConstant.STATUS_PAID
                             : emi.isEmiStatus() == false ? StatusConstant.STATUS_UNPAID.toString()
                             : StatusConstant.STATUS_UNKNOWN);
-            emi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
+//            emi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
             emi.setCreatedBy("sunilkumar5775");
             emi.setCreatedDate(LocalDateTime.now());
             emi.setNoOfPayment(loan.getEmiPaid());
@@ -59,11 +59,11 @@ public class EmiServiceImpl implements EmiService {
 //            loanNextEmi = loanRepository.findByLoanNo(emi.getLoanNo());
 //            updateLoanCounter(loanNextEmi);
             nextMonthEmi.setLoan(loan);
+            nextMonthEmi.setLoanNo(emi.getLoanNo());
             nextMonthEmi.setEmiAmount(emi.getEmiAmount());
             nextMonthEmi.setEmiDate(emi.getEmiDate().plusMonths(1));
             nextMonthEmi.setEmiStatus(false);
             nextMonthEmi.setPaymentStatus(StatusConstant.STATUS_UNPAID);
-            nextMonthEmi.setTotalAmount(defaultAamount.add(emi.getEmiAmount()));
             nextMonthEmi.setCreatedBy("sunilkumar5775");
             nextMonthEmi.setCreatedDate(LocalDateTime.now());
             nextMonthEmi.setNoOfPayment(loan.getEmiPaid()+1);
