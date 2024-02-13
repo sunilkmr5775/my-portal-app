@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "POLICY_PREMIUM_MODE")
+@Table(name = "policy_premium_mode")
 public class PolicyPremiumMode {
 
 	@Id

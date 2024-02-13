@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "LIFE_INSURANCE")
+@Table(name = "life_insurance")
 public class LifeInsurance {
 
 	@Id

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "FILE_LOG")
+@Table(name = "file_log")
 public class FileLog {
 
 	@Id

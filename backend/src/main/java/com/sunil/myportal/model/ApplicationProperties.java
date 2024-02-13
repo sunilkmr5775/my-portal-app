@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "APPLICATION_PROPERTIES")
+@Table(name = "application_properties")
 public class ApplicationProperties implements Serializable {
 
 	private static final long serialVersionUID = 1L;

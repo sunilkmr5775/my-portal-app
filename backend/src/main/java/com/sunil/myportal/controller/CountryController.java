@@ -65,7 +65,7 @@ public class CountryController {
 
 
 //	 GET COUNTRY BY ID
-	@GetMapping("/{countryId}")
+	@GetMapping("/countryId/{countryId}")
 	public Country getCountryById(@PathVariable Long countryId) {
 		return this.countryService.getCountryById(countryId);
 	}

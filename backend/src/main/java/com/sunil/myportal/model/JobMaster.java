@@ -13,7 +13,7 @@ import com.sun.istack.NotNull;
 
 
 @Entity
-@Table(name = "JOB_MASTER")
+@Table(name = "job_master")
 public class JobMaster {
 
 	@Id

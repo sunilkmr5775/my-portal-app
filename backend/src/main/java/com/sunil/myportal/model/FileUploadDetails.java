@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "FILE_UPLD_DTLS")
+@Table(name = "file_upld_dtls")
 public class FileUploadDetails {
 
 	@Id

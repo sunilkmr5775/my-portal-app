@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MENU_MASTER")
+@Table(name = "menu_master")
 public class Menu {
 
 	@Id

@@ -2,15 +2,17 @@ package com.sunil.myportal.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@Table(name = "db_backups")
-public class Backup {
+@Table(name = "preferences")
+public class Preferences {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "OPENAI_API_KEY")
+    private String openaiApiKey;
 
     @Column(name = "FILE_PATH")
     private String filePath;
@@ -21,7 +23,7 @@ public class Backup {
     @Column(name = "CREATED_DATE")
     private LocalDateTime createdDate;
 
-    public Backup() {
+    public Preferences() {
     }
 
     // Getters and setters

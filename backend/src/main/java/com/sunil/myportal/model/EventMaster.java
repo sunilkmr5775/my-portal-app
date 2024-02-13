@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "EVENT_MASTER")
+@Table(name = "event_master")
 public class EventMaster {
 
     @Id

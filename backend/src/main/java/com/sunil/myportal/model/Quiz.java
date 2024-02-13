@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name = "QUIZ")
+@Table(name = "quiz")
 public class Quiz {
 
 	@Id
